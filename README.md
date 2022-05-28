@@ -1,4 +1,6 @@
 # uni-proj-simulation
+[![GitHub license](https://img.shields.io/github/license/Jimm1337/uni-proj-simulation?color=blue)](https://github.com/Jimm1337/uni-proj-simulation/blob/master/LICENSE)
+
 Simple merchant simulation for uni.
 
 ## Build and Run
@@ -16,5 +18,5 @@ $ ./gradlew run
 - Save state
 - Console IO
 
-## Class Schema
-[- PDF -](doc/class-schema.pdf)
+## Documentation
+- [Class schema](doc/class-schema.pdf)
