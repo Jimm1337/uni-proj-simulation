@@ -24,7 +24,7 @@ public class PlayerState {
    * @return The only instance of PlayerState
    */
   public static PlayerState getInstance() {
-      if (instance == null) { instance = new PlayerState(); }
+    if (instance == null) { instance = new PlayerState(); }
     return instance;
   }
 

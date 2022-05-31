@@ -30,7 +30,7 @@ public class Transaction {
     Storage     storage = Storage.getInstance();
     final float value   = price * product.getWeight();
 
-      switch (type) {
+    switch (type) {
       case BUY -> {
         storage.subtractMoney(value); //throws
         storage.addProduct(product);

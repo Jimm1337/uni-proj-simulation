@@ -19,9 +19,9 @@ public class Storage {
    */
   private Storage() {
     stock = new HashMap<>();
-      for (ProductType type : ProductType.values()) {
-        stock.put(type, new Product(type, 0.0f));
-      }
+    for (ProductType type : ProductType.values()) {
+      stock.put(type, new Product(type, 0.0f));
+    }
     money = INITIAL_MONEY;
   }
 
@@ -30,7 +30,7 @@ public class Storage {
    * @return The instance.
    */
   public static Storage getInstance() {
-      if (instance == null) { instance = new Storage(); }
+    if (instance == null) { instance = new Storage(); }
     return instance;
   }
 
@@ -58,7 +58,8 @@ public class Storage {
     Product     working          = stock.get(typeToSubtract);
 
     if (working.getWeight() < toSubtract.getWeight()) {
-      throw new IllegalArgumentException("Weight After subtraction cannot be negative.");
+      throw new IllegalArgumentException(
+        "Weight After subtraction cannot be negative.");
     }
     working.addWeight(weightToSubtract);
   }
@@ -95,9 +96,9 @@ public class Storage {
    * @throws IllegalArgumentException When the stock of money is not enough.
    */
   public void subtractMoney(float toSubtract) {
-      if (money < toSubtract) {
-        throw new IllegalArgumentException(
-          "Money amount after subtraction cannot be negative.");
+    if (money < toSubtract) {
+      throw new IllegalArgumentException(
+        "Money amount after subtraction cannot be negative.");
     }
     money -= toSubtract;
   }

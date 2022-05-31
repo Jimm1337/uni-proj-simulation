@@ -50,9 +50,9 @@ public class Product {
    *   the current weight.
    */
   public void subtractWeight(float weight) {
-      if (this.weight < weight) {
-        throw new IllegalArgumentException(
-          "Weight after the transaction cannot be negative");
+    if (this.weight < weight) {
+      throw new IllegalArgumentException(
+        "Weight after the transaction cannot be negative");
     }
     this.weight -= weight;
   }

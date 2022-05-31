@@ -14,6 +14,7 @@ public class Main {
   public static void main(String[] Args) {
     Parser     argParser = new Parser();
     Difficulty setDifficulty;
+
       try {
         setDifficulty = argParser.parse(Args);
       } catch (IllegalArgumentException err) {
