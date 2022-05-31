@@ -27,6 +27,6 @@ $ ./gradlew javadoc
 ```
 Location: ./build/docs/javadoc/index.html
 
-## todo
+### todo
 - Update schema
 - Natural language doc (latex)

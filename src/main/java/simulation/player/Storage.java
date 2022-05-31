@@ -6,7 +6,7 @@ import simulation.goods.ProductType;
 import java.util.*;
 
 /**
- * Handles the storage of goods and money through the simulation.
+ * Handles the storage of goods, food and money through the simulation.
  */
 public class Storage {
   private static final float INITIAL_MONEY = 100.0f;
