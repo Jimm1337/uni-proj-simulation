@@ -1,5 +1,8 @@
 package io.console;
 
+/**
+ * Types of commands available to the simulation controller.
+ */
 public enum CommandType {
   ADVANCE,
   ADVANCE_BY,

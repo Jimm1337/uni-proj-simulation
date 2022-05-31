@@ -1,5 +1,8 @@
 package simulation.strategy;
 
+/**
+ * Allows for different strategies chosen at runtime.
+ */
 public interface StrategyType {
   /**
    * Gets daily food consumption in units of food.

@@ -3,7 +3,7 @@ package simulation.strategy;
 import io.arguments.Difficulty;
 
 /**
- * The Aggressive strategy. Defines the most random type of simulation.
+ * The most random type of simulation.
  */
 public class AggressiveStrategy implements StrategyType {
   private static final float travelCost = 1.0f;

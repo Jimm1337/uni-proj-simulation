@@ -10,7 +10,7 @@ Tested on:
 - Gradle: 7.2
 
 ```shell
-$ ./gradlew run
+$ ./gradlew run --args "<RNG> <StealMulti>"
 ```
 
 ## Features
@@ -20,3 +20,13 @@ $ ./gradlew run
 
 ## Documentation
 - [Class schema](doc/class-schema.pdf)
+
+#### Javadoc 
+```shell
+$ ./gradlew javadoc
+```
+Location: ./build/docs/javadoc/index.html
+
+## todo
+- Update schema
+- Natural language doc (latex)

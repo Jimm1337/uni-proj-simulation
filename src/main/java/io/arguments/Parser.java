@@ -1,7 +1,7 @@
 package io.arguments;
 
 /**
- * Parser class is used to parse console arguments from the user.
+ * Used to parse console arguments from the user.
  */
 public class Parser {
   /**

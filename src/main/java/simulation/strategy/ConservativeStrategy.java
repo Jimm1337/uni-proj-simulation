@@ -2,7 +2,7 @@ package simulation.strategy;
 
 
 /**
- * The conservative strategy. The least random type of simulation.
+ * The least random type of simulation.
  */
 public class ConservativeStrategy implements StrategyType {
   private static final int foodConsumption = 10;

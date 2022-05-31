@@ -1,6 +1,7 @@
 package app;
 
-//todo
+import io.arguments.Difficulty;
+import io.arguments.Parser;
 
 /**
  * Application entry point.
@@ -11,6 +12,17 @@ public class Main {
    * @param Args Application arguments.
    */
   public static void main(String[] Args) {
-    System.out.println("Hello World!\n");
+    Parser argParser = new Parser();
+    Difficulty setDifficulty;
+    try {
+      setDifficulty = argParser.parse(Args);
+    } catch (IllegalArgumentException err) {
+      System.out.println("""
+          Usage: ./gradlew run --args "<RNG> <StealMulti>"
+          
+          int RNG - the value of randomness in the simulation. (range <2, 6>)
+          float StealMulti - The multiplier for amount lost during random theft event. (range <0.5, 2.0>)
+      """);
+    }
   }
 }

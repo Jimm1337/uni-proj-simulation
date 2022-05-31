@@ -5,7 +5,7 @@ import io.arguments.Difficulty;
 import java.util.Random;
 
 /**
- * The Balanced Strategy. Defines the midpoint of simulation randomness.
+ * The midpoint of simulation randomness.
  */
 public class BalancedStrategy implements StrategyType {
   private static final float priceMultiplier = 0.9f;
