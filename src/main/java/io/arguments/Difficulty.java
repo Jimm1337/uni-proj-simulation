@@ -7,7 +7,6 @@ import java.util.Random;
  */
 public class Difficulty {
   private static final float RANGE_MULTI = 0.02f;
-
   private final int          rng;
   private final float        stealMultiplier;
 
