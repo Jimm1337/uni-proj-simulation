@@ -15,9 +15,9 @@ public class Main {
     Parser     argParser = new Parser();
     Difficulty setDifficulty;
 
-      try {
-        setDifficulty = argParser.parse(Args);
-      } catch (IllegalArgumentException err) {
+    try {
+      setDifficulty = argParser.parse(Args);
+    } catch (IllegalArgumentException err) {
       System.out.println("""
           Usage: ./gradlew run --args "<RNG> <StealMulti>"
           

@@ -40,7 +40,9 @@ public class Difficulty {
     float  range      = RANGE_MULTI * (float)rng;
     Random randEngine = new Random();
     float  generated  = randEngine.nextFloat() % range;
-      if (randEngine.nextBoolean()) { generated *= -1.0f; }
+
+    if (randEngine.nextBoolean()) generated *= -1.0f;
+
     return generated;
   }
 
