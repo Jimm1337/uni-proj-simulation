@@ -1,5 +1,4 @@
 package simulation.vilages;
 
-//todo
-public class Thugs {
-}
+// todo
+public class Thugs {}

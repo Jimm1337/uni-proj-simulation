@@ -1,5 +1,4 @@
 package simulation.environment;
 
-//todo
-public class VillageMap {
-}
+// todo
+public class VillageMap {}

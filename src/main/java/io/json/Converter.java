@@ -1,5 +1,4 @@
 package io.json;
 
-//todo
-public class Converter {
-}
+// todo
+public class Converter {}

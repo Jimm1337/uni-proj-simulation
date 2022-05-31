@@ -1,7 +1,6 @@
 package simulation.strategy;
 
 import io.arguments.Difficulty;
-
 import java.util.Random;
 
 /**
@@ -9,10 +8,9 @@ import java.util.Random;
  */
 public class BalancedStrategy implements StrategyType {
   private static final float priceMultiplier = 0.9f;
-  private static final float travelCost = 1.05f;
-
-  private int foodConsumption = 15;
-  private final Difficulty difficulty;
+  private static final float travelCost      = 1.05f;
+  private int                foodConsumption = 15;
+  private final Difficulty   difficulty;
 
   /**
    * Balanced Strategy constructor.
@@ -23,7 +21,8 @@ public class BalancedStrategy implements StrategyType {
   }
 
   /**
-   * Randomly change food consumption based on generator and difficulty settings.
+   * Randomly change food consumption based on generator and difficulty
+   * settings.
    */
   @Override
   public void fluctuateFoodConsumption() {

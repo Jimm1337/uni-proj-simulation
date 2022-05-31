@@ -12,11 +12,11 @@ public class Main {
    * @param Args Application arguments.
    */
   public static void main(String[] Args) {
-    Parser argParser = new Parser();
+    Parser     argParser = new Parser();
     Difficulty setDifficulty;
-    try {
-      setDifficulty = argParser.parse(Args);
-    } catch (IllegalArgumentException err) {
+      try {
+        setDifficulty = argParser.parse(Args);
+      } catch (IllegalArgumentException err) {
       System.out.println("""
           Usage: ./gradlew run --args "<RNG> <StealMulti>"
           

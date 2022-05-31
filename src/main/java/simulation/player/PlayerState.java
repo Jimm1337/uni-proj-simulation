@@ -3,20 +3,20 @@ package simulation.player;
 import simulation.environment.Position;
 
 /**
- * Holds the information about position and whether an attack happened last epoch.
+ * Holds the information about position and whether an attack happened last
+ * epoch.
  */
 public class PlayerState {
-  private boolean isAttacked;
-  private Position currentPosition;
-
   private static PlayerState instance;
+  private boolean            isAttacked;
+  private Position           currentPosition;
 
   /**
    * Singleton constructor.
    */
   private PlayerState() {
-    isAttacked = false;
-    currentPosition = new Position(0,0);
+    isAttacked      = false;
+    currentPosition = new Position(0, 0);
   }
 
   /**
@@ -24,9 +24,7 @@ public class PlayerState {
    * @return The only instance of PlayerState
    */
   public static PlayerState getInstance() {
-    if (instance == null) {
-      instance = new PlayerState();
-    }
+      if (instance == null) { instance = new PlayerState(); }
     return instance;
   }
 

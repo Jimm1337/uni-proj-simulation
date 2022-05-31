@@ -6,18 +6,18 @@ import io.arguments.Difficulty;
  * The most random type of simulation.
  */
 public class AggressiveStrategy implements StrategyType {
-  private static final float travelCost = 1.0f;
-
-  private int foodConsumption = 20;
-  private float priceMultiplier = 0.7f;
-  private final Difficulty difficulty;
+  private static final float travelCost      = 1.0f;
+  private int                foodConsumption = 20;
+  private float              priceMultiplier = 0.7f;
+  private final Difficulty   difficulty;
 
   public AggressiveStrategy(Difficulty difficulty) {
     this.difficulty = difficulty;
   }
 
   /**
-   * Randomly change food consumption based on generator and difficulty settings.
+   * Randomly change food consumption based on generator and difficulty
+   * settings.
    */
   @Override
   public void fluctuateFoodConsumption() {
@@ -25,7 +25,8 @@ public class AggressiveStrategy implements StrategyType {
   }
 
   /**
-   * Randomly change price multiplier based on generator and difficulty settings.
+   * Randomly change price multiplier based on generator and difficulty
+   * settings.
    */
   @Override
   public void fluctuatePriceMultiplier() {

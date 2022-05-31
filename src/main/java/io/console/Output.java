@@ -1,5 +1,4 @@
 package io.console;
 
-//todo
-public class Output {
-}
+// todo
+public class Output {}

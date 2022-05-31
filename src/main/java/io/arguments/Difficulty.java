@@ -8,16 +8,18 @@ import java.util.Random;
 public class Difficulty {
   private static final float RANGE_MULTI = 0.02f;
 
-  private final int rng;
-  private final float stealMultiplier;
+  private final int          rng;
+  private final float        stealMultiplier;
 
   /**
    * Generates Difficulty from arguments.
-   * @param rng rng param (1st param - reasonable range -> From 2 To 6 inclusive).
-   * @param stealMultiplier sm param (2nd param - reasonable range -> From 0.5 To 2.0 inclusive).
+   * @param rng rng param (1st param - reasonable range -> From 2 To 6
+   *   inclusive).
+   * @param stealMultiplier sm param (2nd param - reasonable range -> From 0.5
+   *   To 2.0 inclusive).
    */
   Difficulty(int rng, float stealMultiplier) {
-    this.rng = rng;
+    this.rng             = rng;
     this.stealMultiplier = stealMultiplier;
   }
 
@@ -35,12 +37,10 @@ public class Difficulty {
    * @return Random float based on rng argument and random engine.
    */
   public float getRandomFloat() {
-    float range = RANGE_MULTI * (float)rng;
+    float  range      = RANGE_MULTI * (float)rng;
     Random randEngine = new Random();
-    float generated = randEngine.nextFloat() % range;
-    if (randEngine.nextBoolean()) {
-      generated *= -1.0f;
-    }
+    float  generated  = randEngine.nextFloat() % range;
+      if (randEngine.nextBoolean()) { generated *= -1.0f; }
     return generated;
   }
 

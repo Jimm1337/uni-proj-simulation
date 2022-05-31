@@ -1,5 +1,4 @@
 package simulation.vilages;
 
-//todo
-public class Road {
-}
+// todo
+public class Road {}

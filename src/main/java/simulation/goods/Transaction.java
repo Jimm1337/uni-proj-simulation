@@ -6,8 +6,8 @@ import simulation.player.Storage;
  * Represents a single transaction.
  */
 public class Transaction {
-  private final float price;
-  private final Product product;
+  private final float           price;
+  private final Product         product;
   private final TransactionType type;
 
   /**
@@ -17,9 +17,9 @@ public class Transaction {
    * @param type The type of the transaction.
    */
   public Transaction(float price, Product product, TransactionType type) {
-    this.price = price;
+    this.price   = price;
     this.product = product;
-    this.type = type;
+    this.type    = type;
   }
 
   /**
@@ -27,10 +27,10 @@ public class Transaction {
    * @throws IllegalArgumentException When the transaction cannot be fulfilled.
    */
   public void execute() {
-    Storage storage = Storage.getInstance();
-    final float value = price * product.getWeight();
+    Storage     storage = Storage.getInstance();
+    final float value   = price * product.getWeight();
 
-    switch (type) {
+      switch (type) {
       case BUY -> {
         storage.subtractMoney(value); //throws
         storage.addProduct(product);

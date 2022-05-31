@@ -5,7 +5,7 @@ package simulation.goods;
  */
 public class Product {
   private final ProductType type;
-  private float weight;
+  private float             weight;
 
   /**
    * Product constructor, defines final type and initial weight
@@ -13,7 +13,7 @@ public class Product {
    * @param weight Initial weight in units.
    */
   public Product(ProductType type, float weight) {
-    this.type = type;
+    this.type   = type;
     this.weight = weight;
   }
 
@@ -43,13 +43,16 @@ public class Product {
 
   /**
    * Tries to subtract from the current weight.
-   * It is advised to check whether the subtracted weight is less than or equal the current weight.
+   * It is advised to check whether the subtracted weight is less than or equal
+   * the current weight.
    * @param weight Weight to be subtracted.
-   * @throws IllegalArgumentException When the subtracted weight is greater than the current weight.
+   * @throws IllegalArgumentException When the subtracted weight is greater than
+   *   the current weight.
    */
   public void subtractWeight(float weight) {
-    if (this.weight < weight) {
-      throw new IllegalArgumentException("Weight after the transaction cannot be negative");
+      if (this.weight < weight) {
+        throw new IllegalArgumentException(
+          "Weight after the transaction cannot be negative");
     }
     this.weight -= weight;
   }
@@ -64,7 +67,7 @@ public class Product {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    Product product = (Product) o;
+    Product product = (Product)o;
 
     return type == product.type;
   }
