@@ -10,7 +10,6 @@ public class ConservativeStrategy implements StrategyType {
 
   /**
    * Gets daily food consumption in units of food.
-   *
    * @return daily food consumption in units of food.
    */
   @Override
@@ -20,7 +19,6 @@ public class ConservativeStrategy implements StrategyType {
 
   /**
    * Gets price multiplier for transactions.
-   *
    * @return price multiplier for transactions.
    */
   @Override
@@ -30,7 +28,6 @@ public class ConservativeStrategy implements StrategyType {
 
   /**
    * Gets travel cost per unit of distance.
-   *
    * @return travel cost per unit of distance.
    */
   @Override

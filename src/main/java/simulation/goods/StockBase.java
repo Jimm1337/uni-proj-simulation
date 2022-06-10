@@ -1,37 +1,34 @@
-package simulation.player;
+package simulation.goods;
 
-import java.util.*;
-import simulation.goods.Product;
-import simulation.goods.ProductType;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Handles the storage of goods, food and money through the simulation.
+ * Base class for storage.
  */
-public class Storage {
-  private static final float        INITIAL_MONEY = 100.0f;
-  private static Storage            instance;
+public abstract class StockBase {
   private Map<ProductType, Product> stock;
   private float                     money;
 
   /**
-   * Singleton constructor. Initializes the Map to HashMap with All the product
-   * types.
+   * Constructor. Initializes stock HashMap.
    */
-  private Storage() {
+  public StockBase() {
     stock = new HashMap<>();
-    for (ProductType type : ProductType.values()) {
-      stock.put(type, new Product(type, 0.0f));
-    }
-    money = INITIAL_MONEY;
   }
 
   /**
-   * Gets the singleton only instance. Initializes if necessary.
-   * @return The instance.
+   * Clear the stock.
    */
-  public static Storage getInstance() {
-    if (instance == null) { instance = new Storage(); }
-    return instance;
+  public void clearStock() {
+    stock.clear();
+  }
+
+  /**
+   * Reset money.
+   */
+  public void clearMoney() {
+    money = 0.0f;
   }
 
   /**
@@ -59,7 +56,7 @@ public class Storage {
 
     if (working.getWeight() < toSubtract.getWeight()) {
       throw new IllegalArgumentException(
-        "Weight After subtraction cannot be negative.");
+          "Weight After subtraction cannot be negative.");
     }
     working.addWeight(weightToSubtract);
   }
@@ -98,7 +95,7 @@ public class Storage {
   public void subtractMoney(float toSubtract) {
     if (money < toSubtract) {
       throw new IllegalArgumentException(
-        "Money amount after subtraction cannot be negative.");
+          "Money amount after subtraction cannot be negative.");
     }
     money -= toSubtract;
   }
