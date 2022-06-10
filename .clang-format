@@ -1,6 +1,8 @@
 ﻿---
 # general
 BasedOnStyle: Google #default if not defined
+# Language: Cpp
+# Standard: c++20
 ColumnLimit: 80
 IndentWidth: 2
 UseCRLF: false
@@ -22,10 +24,10 @@ SortUsingDeclarations: true
 # alignment
 AlignAfterOpenBracket: AlwaysBreak
 AlignArrayOfStructures: None
-AlignConsecutiveAssignments: AcrossEmptyLinesAndComments
-AlignConsecutiveBitFields: AcrossEmptyLinesAndComments
-AlignConsecutiveDeclarations: AcrossEmptyLinesAndComments
-AlignConsecutiveMacros: AcrossEmptyLinesAndComments
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveBitFields: Consecutive
+AlignConsecutiveDeclarations: Consecutive
+AlignConsecutiveMacros: Consecutive
 AlignEscapedNewlines: Right
 AlignOperands: Align
 AlignTrailingComments: true
@@ -120,7 +122,6 @@ BraceWrapping:
   BeforeElse: false
   BeforeLambdaBody: false
   BeforeWhile: false
-  IndentBraces: true
   SplitEmptyFunction: false
   SplitEmptyRecord: false
   SplitEmptyNamespace: false

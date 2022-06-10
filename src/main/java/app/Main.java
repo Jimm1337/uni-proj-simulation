@@ -12,11 +12,10 @@ public class Main {
    * @param Args Application arguments.
    */
   public static void main(String[] Args) {
-    Parser     argParser = new Parser();
-    Difficulty setDifficulty;
+    Parser argParser = new Parser();
 
     try {
-      setDifficulty = argParser.parse(Args);
+      argParser.parse(Args);
     } catch (IllegalArgumentException err) {
       System.out.println("""
           Usage: ./gradlew run --args "<RNG> <StealMulti>"
@@ -27,3 +26,6 @@ public class Main {
     }
   }
 }
+
+//todo: make StrategyType interface -> StrategyBase abstract class singleton
+//todo: extract random generation out of difficulty to another class.
