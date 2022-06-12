@@ -7,17 +7,18 @@ import java.util.Random;
  * The midpoint of simulation randomness.
  */
 public class BalancedStrategy implements StrategyType {
+  private static final int FOOD_RAND_MULTI = 1;
+
   private static final float priceMultiplier = 0.9f;
   private static final float travelCost      = 1.05f;
   private int                foodConsumption = 15;
   private final Difficulty   difficulty;
 
   /**
-   * Balanced Strategy constructor.
-   * @param difficulty Difficulty object from parsed args.
+   * Balanced Strategy constructor. Grabs Difficulty class instance.
    */
-  public BalancedStrategy(Difficulty difficulty) {
-    this.difficulty = difficulty;
+  public BalancedStrategy() {
+    this.difficulty = Difficulty.getInstance();
   }
 
   /**
@@ -26,12 +27,11 @@ public class BalancedStrategy implements StrategyType {
    */
   @Override
   public void fluctuateFoodConsumption() {
-    foodConsumption += difficulty.getRandomInt();
+    foodConsumption += difficulty.getRandomInt() * FOOD_RAND_MULTI;
   }
 
   /**
    * Gets daily food consumption in units of food.
-   *
    * @return daily food consumption in units of food.
    */
   @Override
@@ -41,7 +41,6 @@ public class BalancedStrategy implements StrategyType {
 
   /**
    * Gets price multiplier for transactions.
-   *
    * @return price multiplier for transactions.
    */
   @Override
@@ -51,7 +50,6 @@ public class BalancedStrategy implements StrategyType {
 
   /**
    * Gets travel cost per unit of distance.
-   *
    * @return travel cost per unit of distance.
    */
   @Override

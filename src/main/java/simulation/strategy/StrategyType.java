@@ -6,21 +6,18 @@ package simulation.strategy;
 public interface StrategyType {
   /**
    * Gets daily food consumption in units of food.
-   *
    * @return daily food consumption in units of food.
    */
   int getFoodConsumption();
 
   /**
    * Gets price multiplier for transactions.
-   *
    * @return price multiplier for transactions.
    */
   float getPriceMultiplier();
 
   /**
    * Gets travel cost per unit of distance.
-   *
    * @return travel cost per unit of distance.
    */
   float getTravelCost();

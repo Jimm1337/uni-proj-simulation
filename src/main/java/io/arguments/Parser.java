@@ -7,14 +7,13 @@ public class Parser {
   /**
    * Parsing method.
    * @param Args main() function arguments.
-   * @return Difficulty instance with parsed arguments.
    * @throws IllegalArgumentException Wrong number of program arguments.
    * @throws IllegalArgumentException Argument rng out of range.
    * @throws IllegalArgumentException Argument steal multiplier out of range.
    */
-  public Difficulty parse(String[] Args) {
+  public void parse(String[] Args) {
     if (Args.length != 2) {
-      throw new IllegalArgumentException("Too few Arguments, expected 2");
+      throw new IllegalArgumentException("Too few Arguments, expected 2.");
     }
 
     int rng = Integer.parseInt(Args[0]);
@@ -29,6 +28,6 @@ public class Parser {
         "Steal multiplier out of range - allowed range <0.5, 2.0>.");
     }
 
-    return new Difficulty(rng, stealMulti);
+    Difficulty.createInstance(rng, stealMulti);
   }
 }

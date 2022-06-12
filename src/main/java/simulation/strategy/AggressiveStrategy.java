@@ -6,13 +6,19 @@ import io.arguments.Difficulty;
  * The most random type of simulation.
  */
 public class AggressiveStrategy implements StrategyType {
+  private static final int FOOD_RAND_MULTI = 1;
+  private static final float PRICE_RAND_MULTI = 0.01f;
+
   private static final float travelCost      = 1.0f;
   private int                foodConsumption = 20;
   private float              priceMultiplier = 0.7f;
   private final Difficulty   difficulty;
 
-  public AggressiveStrategy(Difficulty difficulty) {
-    this.difficulty = difficulty;
+  /**
+   * Aggressive strategy constructor. Grabs Difficulty class instance.
+   */
+  public AggressiveStrategy() {
+    this.difficulty = Difficulty.getInstance();
   }
 
   /**
@@ -21,7 +27,7 @@ public class AggressiveStrategy implements StrategyType {
    */
   @Override
   public void fluctuateFoodConsumption() {
-    foodConsumption += difficulty.getRandomInt();
+    foodConsumption += difficulty.getRandomInt() * FOOD_RAND_MULTI;
   }
 
   /**
@@ -30,12 +36,11 @@ public class AggressiveStrategy implements StrategyType {
    */
   @Override
   public void fluctuatePriceMultiplier() {
-    priceMultiplier += difficulty.getRandomFloat();
+    priceMultiplier += difficulty.getRandomFloat() * PRICE_RAND_MULTI;
   }
 
   /**
    * Gets daily food consumption in units of food.
-   *
    * @return daily food consumption in units of food.
    */
   @Override
@@ -45,7 +50,6 @@ public class AggressiveStrategy implements StrategyType {
 
   /**
    * Gets price multiplier for transactions.
-   *
    * @return price multiplier for transactions.
    */
   @Override
@@ -55,7 +59,6 @@ public class AggressiveStrategy implements StrategyType {
 
   /**
    * Gets travel cost per unit of distance.
-   *
    * @return travel cost per unit of distance.
    */
   @Override

@@ -1,4 +1,6 @@
 package simulation.environment;
 
 // todo
-public class Epochs {}
+public class Epochs {
+
+}
