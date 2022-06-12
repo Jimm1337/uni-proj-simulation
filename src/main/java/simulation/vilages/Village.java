@@ -16,6 +16,7 @@ public class Village extends StockBase implements TransactionChecker {
 
   private final Position position;
   private Map<ProductType, Float> prices;
+  private final float priceIndex;
 
   /**
    * Initialize with random stock and prices. Set Position.
@@ -25,6 +26,7 @@ public class Village extends StockBase implements TransactionChecker {
     this.position = position;
     randomizeStock();
     randomizePrices();
+    priceIndex = calculatePriceIndex();
   }
 
   /**
@@ -117,5 +119,27 @@ public class Village extends StockBase implements TransactionChecker {
     }
 
     return false;
+  }
+
+  /**
+   * Calculate the price index.
+   * @return Simple average of prices.
+   */
+  private float calculatePriceIndex() {
+    float sumOfPrices = 0.0f;
+    for (float price : prices.values()) {
+      sumOfPrices += price;
+    }
+    float simpleAverage = sumOfPrices / prices.size();
+
+    return simpleAverage;
+  }
+
+  /**
+   * Price index getter.
+   * @return Simple Average of prices.
+   */
+  public float getPriceIndex() {
+    return priceIndex;
   }
 }

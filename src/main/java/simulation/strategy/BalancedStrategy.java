@@ -7,6 +7,8 @@ import java.util.Random;
  * The midpoint of simulation randomness.
  */
 public class BalancedStrategy implements StrategyType {
+  private static final int FOOD_RAND_MULTI = 1;
+
   private static final float priceMultiplier = 0.9f;
   private static final float travelCost      = 1.05f;
   private int                foodConsumption = 15;
@@ -25,7 +27,7 @@ public class BalancedStrategy implements StrategyType {
    */
   @Override
   public void fluctuateFoodConsumption() {
-    foodConsumption += difficulty.getRandomInt();
+    foodConsumption += difficulty.getRandomInt() * FOOD_RAND_MULTI;
   }
 
   /**
