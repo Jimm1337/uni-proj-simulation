@@ -26,6 +26,3 @@ public class Main {
     }
   }
 }
-
-//todo: make StrategyType interface -> StrategyBase abstract class singleton
-//todo: extract random generation out of difficulty to another class.

@@ -10,5 +10,6 @@ public enum CommandType {
   ADVANCE_STOP,
   SAVE_QUIT,
   SET_STRATEGY,
+  SET_TRAVERSAL,
   RESUME
 }

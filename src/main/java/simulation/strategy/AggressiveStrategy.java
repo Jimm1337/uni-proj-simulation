@@ -6,6 +6,9 @@ import io.arguments.Difficulty;
  * The most random type of simulation.
  */
 public class AggressiveStrategy implements StrategyType {
+  private static final int FOOD_RAND_MULTI = 1;
+  private static final float PRICE_RAND_MULTI = 0.01f;
+
   private static final float travelCost      = 1.0f;
   private int                foodConsumption = 20;
   private float              priceMultiplier = 0.7f;
@@ -24,7 +27,7 @@ public class AggressiveStrategy implements StrategyType {
    */
   @Override
   public void fluctuateFoodConsumption() {
-    foodConsumption += difficulty.getRandomInt();
+    foodConsumption += difficulty.getRandomInt() * FOOD_RAND_MULTI;
   }
 
   /**
@@ -33,7 +36,7 @@ public class AggressiveStrategy implements StrategyType {
    */
   @Override
   public void fluctuatePriceMultiplier() {
-    priceMultiplier += difficulty.getRandomFloat();
+    priceMultiplier += difficulty.getRandomFloat() * PRICE_RAND_MULTI;
   }
 
   /**
