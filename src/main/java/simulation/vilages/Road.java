@@ -2,6 +2,7 @@ package simulation.vilages;
 
 import io.arguments.Difficulty;
 import simulation.environment.Position;
+import simulation.player.PlayerState;
 
 /**
  * Road class represents a path between two positions, used for calculations.

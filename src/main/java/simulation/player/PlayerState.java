@@ -10,12 +10,14 @@ public class PlayerState {
   private static PlayerState instance;
   private boolean            isAttacked;
   private Position           currentPosition;
+  private boolean isDead;
 
   /**
    * Singleton constructor.
    */
   private PlayerState() {
     isAttacked      = false;
+    isDead = false;
     currentPosition = new Position(0, 0);
   }
 
@@ -58,5 +60,20 @@ public class PlayerState {
    */
   public void setCurrentPosition(Position newPosition) {
     currentPosition = newPosition;
+  }
+
+  /**
+   * Finish the simulation
+   */
+  public void die() {
+    isDead = true;
+  }
+
+  /**
+   * Check if dead.
+   * @return true if dead.
+   */
+  public boolean isDead() {
+    return isDead;
   }
 }

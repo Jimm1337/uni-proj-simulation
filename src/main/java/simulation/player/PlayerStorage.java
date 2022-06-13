@@ -1,6 +1,8 @@
 package simulation.player;
 
+import simulation.environment.Epochs;
 import simulation.goods.*;
+import simulation.strategy.StrategyType;
 
 /**
  * Handles the storage of goods, food and money through the simulation.
@@ -57,5 +59,25 @@ public class PlayerStorage extends StockBase implements TransactionChecker {
     }
 
     return false;
+  }
+
+  /**
+   * Consumes daily food or dies if not enough food left.
+   */
+  public void consumeDailyFood() {
+    StrategyType strategy = Epochs.getInstance().getStrategyType();
+    float consumption = strategy.getFoodConsumption();
+
+    Product foodStock = getProduct(ProductType.FOOD);
+    float foodStockWeight = foodStock.getWeight();
+
+    if (foodStockWeight < consumption) {
+      PlayerState playerState = PlayerState.getInstance();
+      playerState.die();
+      return;
+    }
+
+    Product toConsume = new Product(ProductType.FOOD, consumption);
+    subtractProduct(toConsume);
   }
 }

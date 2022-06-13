@@ -18,6 +18,8 @@ public class SellingAlgorithm {
   StrategyType strategyType;
   Village village;
 
+  private static SellingAlgorithm instance;
+
   public SellingAlgorithm(StrategyType strategyType, Village village) {
     this.strategyType = strategyType;
     this.village = village;

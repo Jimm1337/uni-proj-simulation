@@ -1,11 +1,15 @@
 package simulation.environment;
 
 import simulation.computation.BuyingAlgorithm;
+import simulation.computation.Dice;
 import simulation.computation.SellingAlgorithm;
 import simulation.computation.TraverseBase;
 import simulation.player.PlayerState;
 import simulation.player.PlayerStorage;
 import simulation.strategy.StrategyType;
+import simulation.vilages.Road;
+import simulation.vilages.Thugs;
+import simulation.vilages.Village;
 
 import java.util.stream.IntStream;
 
@@ -21,6 +25,9 @@ public class Epochs {
   private VillageMap villageMap;
   private StrategyType strategyType;
   private TraverseBase traverseAlgorithm;
+  private Dice dice;
+  private boolean finishTheSimulation;
+  private Village currentVillage;
 
   static private Epochs instance;
 
@@ -28,35 +35,32 @@ public class Epochs {
    * Constructor, construct using the init method instead.
    * @param buyingAlgorithm buying algorithm class.
    * @param sellingAlgorithm selling algorithm class.
-   * @param playerStorage player storage.
-   * @param playerState player state.
-   * @param villageMap village map.
    * @param strategyType strategy type.
    * @param traverseAlgorithm traversal algorithm
    */
-  private Epochs(BuyingAlgorithm buyingAlgorithm, SellingAlgorithm sellingAlgorithm, PlayerStorage playerStorage, PlayerState playerState, VillageMap villageMap, StrategyType strategyType, TraverseBase traverseAlgorithm) {
+  private Epochs(BuyingAlgorithm buyingAlgorithm, SellingAlgorithm sellingAlgorithm, StrategyType strategyType, TraverseBase traverseAlgorithm) {
     this.buyingAlgorithm = buyingAlgorithm;
     this.sellingAlgorithm = sellingAlgorithm;
-    this.playerStorage = playerStorage;
-    this.playerState = playerState;
-    this.villageMap = villageMap;
+    this.playerStorage = PlayerStorage.getInstance();
+    this.playerState = PlayerState.getInstance();
+    this.villageMap = VillageMap.getInstance();
     this.strategyType = strategyType;
     this.traverseAlgorithm = traverseAlgorithm;
+    this.dice = new Dice();
+    this.finishTheSimulation = false;
+    currentVillage = null;
   }
 
   /**
    * Init method used either when loading or creating a new simulation.
    * @param buyingAlgorithm buying algorithm class.
    * @param sellingAlgorithm selling algorithm class.
-   * @param playerStorage player storage.
-   * @param playerState player state.
-   * @param villageMap village map.
    * @param strategyType strategy type.
    * @param traverseAlgorithm traversal algorithm
    */
-  public void init(BuyingAlgorithm buyingAlgorithm, SellingAlgorithm sellingAlgorithm, PlayerStorage playerStorage, PlayerState playerState, VillageMap villageMap, StrategyType strategyType, TraverseBase traverseAlgorithm) {
+  public void init(BuyingAlgorithm buyingAlgorithm, SellingAlgorithm sellingAlgorithm, StrategyType strategyType, TraverseBase traverseAlgorithm) {
     if (instance == null) {
-      instance = new Epochs(buyingAlgorithm, sellingAlgorithm, playerStorage, playerState, villageMap, strategyType, traverseAlgorithm);
+      instance = new Epochs(buyingAlgorithm, sellingAlgorithm, strategyType, traverseAlgorithm);
     }
   }
 
@@ -64,7 +68,7 @@ public class Epochs {
    * Instance grabber.
    * @return The only instance.
    */
-  public Epochs getInstance() {
+  public static Epochs getInstance() {
     if (instance == null) {
       throw new RuntimeException("Failed to init Epochs");
     }
@@ -73,10 +77,14 @@ public class Epochs {
   }
 
   /**
-   * Advance one epoch
+   * Advance one epoch: Travel, Sell, Buy
    */
   public void advance() {
-    //todo
+    travelingSequence();
+    if (finishTheSimulation) return;
+
+    sellingSequence();
+    buyingSequence();
   }
 
   /**
@@ -85,5 +93,63 @@ public class Epochs {
    */
   public void advanceBy(int count) {
     IntStream.range(0, count).forEach(i -> advance());
+  }
+
+  /**
+   * Execute the travelling sequence: consume daily food or die, pay the cost of travel, possibly get attacked, set current position and village.
+   */
+  private void travelingSequence() {
+    Village nextVillage = traverseAlgorithm.getNext();
+    Position nextVillagePosition = nextVillage.getPosition();
+    Position playerPosition = playerState.getCurrentPosition();
+    Road road = new Road(playerPosition, nextVillagePosition);
+
+    float risk = road.calculateRisk();
+    float distance = road.calculateDistance();
+    float costPerUnitOfRoad = strategyType.getTravelCost();
+    boolean toBeAttacked = dice.roll(risk);
+
+    playerStorage.consumeDailyFood();
+    if (playerState.isDead()) {
+      finishTheSimulation = true;
+      return;
+    }
+
+    float travelCost = distance * costPerUnitOfRoad;
+    playerStorage.subtractMoney(travelCost);
+
+    playerState.setAttacked(false);
+    if (toBeAttacked) {
+      Thugs thugs = new Thugs();
+      thugs.steal();
+      playerState.setAttacked(true);
+    }
+
+    playerState.setCurrentPosition(nextVillagePosition);
+    currentVillage = nextVillage;
+  }
+
+  /**
+   * Execute the selling sequence: generate Transactions and execute them
+   */
+  private void sellingSequence() {
+    var transactions = sellingAlgorithm.generateTransactions();
+    transactions.forEach(transaction -> transaction.execute(currentVillage));
+  }
+
+  /**
+   * Execute the buying sequence: generate Transactions and execute them
+   */
+  private void buyingSequence () {
+    var transactions = buyingAlgorithm.generateTransactions();
+    transactions.forEach(transaction -> transaction.execute(currentVillage));
+  }
+
+  /**
+   * StrategyType getter.
+   * @return Selected strategy type.
+   */
+  public StrategyType getStrategyType() {
+    return strategyType;
   }
 }
