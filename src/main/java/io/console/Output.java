@@ -29,6 +29,7 @@ public class Output {
   private static final String TRAVERSE_MESSAGE = "Traverse method?[p (price)/ d (distance)]: ";
   private static final String INVALID_TRAVERSE_MESSAGE = "Invalid traverse method!";
   private static final String PRESS_TO_STOP_MESSAGE = "Press 's' to stop.";
+  private static final String FINAL_SAVE_QUESTION_MESSAGE = "Save?[y/n]: ";
 
   private final Epochs epochs;
   private final String cachedHelp;
@@ -110,6 +111,10 @@ public class Output {
    */
   public void emitStopHint() {
     draw(PRESS_TO_STOP_MESSAGE);
+  }
+
+  public void emitFinalSaveQuestion() {
+    draw(FINAL_SAVE_QUESTION_MESSAGE);
   }
 
   /**
