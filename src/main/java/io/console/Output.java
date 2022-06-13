@@ -28,6 +28,7 @@ public class Output {
   private static final String INVALID_STRATEGY_MESSAGE = "Invalid strategy!";
   private static final String TRAVERSE_MESSAGE = "Traverse method?[p (price)/ d (distance)]: ";
   private static final String INVALID_TRAVERSE_MESSAGE = "Invalid traverse method!";
+  private static final String PRESS_TO_STOP_MESSAGE = "Press 's' to stop.";
 
   private final Epochs epochs;
   private final String cachedHelp;
@@ -105,13 +106,20 @@ public class Output {
   }
 
   /**
+   * Print a hint to stop Advance auto.
+   */
+  public void emitStopHint() {
+    draw(PRESS_TO_STOP_MESSAGE);
+  }
+
+  /**
    * Print help page.
    */
   public void emitHelpPage() {
     if (cachedHelp == null) {
       StringBuilder builder = new StringBuilder();
 
-      builder.append("(Command [Optional]:PARAM [Optional]<Enter>) |Command Name| - Description.\n");
+      builder.append("(Command [Optional - without :]:PARAM [Optional]<Enter>) |Command Name| - Description.\n");
       for (CommandType type : CommandType.values()) {
         builder.append(type.manualEntry());
       }

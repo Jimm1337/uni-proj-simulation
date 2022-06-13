@@ -2,8 +2,6 @@ package app;
 
 import io.arguments.Parser;
 import io.console.Controller;
-import io.console.Input;
-import io.console.Output;
 
 /**
  * Application entry point.
@@ -32,4 +30,5 @@ public class Main {
   }
 }
 
-//todo: io
+//todo: reduce singletons to just Epochs class.
+//todo: impl JSON, save state

@@ -15,7 +15,8 @@ enum CommandType {
   ADVANCE_STOP,
   SAVE_QUIT,
   QUIT,
-  HELP;
+  HELP,
+  INVALID;
 
   private static final String NO_MANUAL = "";
 
@@ -48,6 +49,40 @@ enum CommandType {
       }
       default -> {
         return NO_MANUAL; //internal use commands
+      }
+    }
+  }
+
+  /**
+   * Get CommandType by code.
+   * @param code string command code.
+   * @return Command Type of the code or INVALID
+   */
+  public static CommandType byCode(String code) {
+    switch (code) {
+      case "a" -> {
+        return ADVANCE;
+      }
+      case "ab" -> {
+        return ADVANCE_BY;
+      }
+      case "aa" -> {
+        return ADVANCE_AUTO;
+      }
+      case "s" -> {
+        return ADVANCE_STOP;
+      }
+      case "sq" -> {
+        return SAVE_QUIT;
+      }
+      case "qq" -> {
+        return QUIT;
+      }
+      case "h" -> {
+        return HELP;
+      }
+      default -> {
+        return INVALID; //internal use commands
       }
     }
   }
