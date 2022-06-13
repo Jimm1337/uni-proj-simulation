@@ -18,14 +18,13 @@ import java.util.stream.IntStream;
  */
 public class Epochs {
   private int count = 0;
-  private BuyingAlgorithm buyingAlgorithm;
-  private SellingAlgorithm sellingAlgorithm;
-  private PlayerStorage playerStorage;
-  private PlayerState playerState;
-  private VillageMap villageMap;
-  private StrategyType strategyType;
-  private TraverseBase traverseAlgorithm;
-  private Dice dice;
+  private final BuyingAlgorithm buyingAlgorithm;
+  private final SellingAlgorithm sellingAlgorithm;
+  private final PlayerStorage playerStorage;
+  private final PlayerState playerState;
+  private final StrategyType strategyType;
+  private final TraverseBase traverseAlgorithm;
+  private final Dice dice;
   private boolean finishTheSimulation;
   private Village currentVillage;
 
@@ -43,7 +42,6 @@ public class Epochs {
     this.sellingAlgorithm = sellingAlgorithm;
     this.playerStorage = PlayerStorage.getInstance();
     this.playerState = PlayerState.getInstance();
-    this.villageMap = VillageMap.getInstance();
     this.strategyType = strategyType;
     this.traverseAlgorithm = traverseAlgorithm;
     this.dice = new Dice();
@@ -58,7 +56,7 @@ public class Epochs {
    * @param strategyType strategy type.
    * @param traverseAlgorithm traversal algorithm
    */
-  public void init(BuyingAlgorithm buyingAlgorithm, SellingAlgorithm sellingAlgorithm, StrategyType strategyType, TraverseBase traverseAlgorithm) {
+  public static void init(BuyingAlgorithm buyingAlgorithm, SellingAlgorithm sellingAlgorithm, StrategyType strategyType, TraverseBase traverseAlgorithm) {
     if (instance == null) {
       instance = new Epochs(buyingAlgorithm, sellingAlgorithm, strategyType, traverseAlgorithm);
     }
@@ -77,7 +75,7 @@ public class Epochs {
   }
 
   /**
-   * Advance one epoch: Travel, Sell, Buy
+   * Advance one epoch: Travel, Sell, Buy, Increment count
    */
   public void advance() {
     travelingSequence();
@@ -85,6 +83,7 @@ public class Epochs {
 
     sellingSequence();
     buyingSequence();
+    ++count;
   }
 
   /**
@@ -151,5 +150,13 @@ public class Epochs {
    */
   public StrategyType getStrategyType() {
     return strategyType;
+  }
+
+  /**
+   * Get elapsed epochs.
+   * @return elapsed epochs up to this point.
+   */
+  public int getCount() {
+    return count;
   }
 }

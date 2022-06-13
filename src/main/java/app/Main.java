@@ -1,6 +1,9 @@
 package app;
 
 import io.arguments.Parser;
+import io.console.Controller;
+import io.console.Input;
+import io.console.Output;
 
 /**
  * Application entry point.
@@ -23,6 +26,9 @@ public class Main {
           float StealMulti - The multiplier for amount lost during random theft event. (range <0.5, 2.0>)
       """);
     }
+
+    Controller consoleController = new Controller();
+    consoleController.entry();
   }
 }
 

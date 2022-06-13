@@ -3,13 +3,17 @@ package io.console;
 /**
  * Types of commands available to the simulation controller.
  */
-public enum CommandType {
+enum CommandType {
+  GET_COMMAND,
+  ENTRY,
+  RESUME,
+  SET_STRATEGY,
+  SET_TRAVERSAL,
   ADVANCE,
   ADVANCE_BY,
   ADVANCE_AUTO,
   ADVANCE_STOP,
   SAVE_QUIT,
-  SET_STRATEGY,
-  SET_TRAVERSAL,
-  RESUME
+  QUIT,
+  HELP
 }
