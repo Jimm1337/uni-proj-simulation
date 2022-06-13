@@ -101,4 +101,12 @@ public class VillageMap {
 
     return currentBest;
   }
+
+  /**
+   * Get all villages as an ArrayList
+   * @return ArrayList of villages.
+   */
+  public ArrayList<Village> getVillages() {
+    return villages;
+  }
 }

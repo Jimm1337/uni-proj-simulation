@@ -25,6 +25,7 @@ public class Epochs {
   private final StrategyType strategyType;
   private final TraverseBase traverseAlgorithm;
   private final Dice dice;
+  private final VillageMap villageMap;
   private boolean finishTheSimulation;
   private Village currentVillage;
 
@@ -45,6 +46,7 @@ public class Epochs {
     this.strategyType = strategyType;
     this.traverseAlgorithm = traverseAlgorithm;
     this.dice = new Dice();
+    this.villageMap = VillageMap.getInstance();
     this.finishTheSimulation = false;
     currentVillage = null;
   }
@@ -158,5 +160,37 @@ public class Epochs {
    */
   public int getCount() {
     return count;
+  }
+
+  /**
+   * Player storage getter.
+   * @return playerStorage
+   */
+  public PlayerStorage getPlayerStorage() {
+    return playerStorage;
+  }
+
+  /**
+   * PlayerState getter.
+   * @return PlayerState.
+   */
+  public PlayerState getPlayerState() {
+    return playerState;
+  }
+
+  /**
+   * If the simulation should be finished.
+   * @return true if simulation finished.
+   */
+  public boolean isSimulationFinished() {
+    return finishTheSimulation;
+  }
+
+  /**
+   * Village map getter.
+   * @return VillageMap
+   */
+  public VillageMap getVillageMap() {
+    return villageMap;
   }
 }
