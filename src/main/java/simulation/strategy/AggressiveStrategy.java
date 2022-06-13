@@ -6,11 +6,11 @@ import io.arguments.Difficulty;
  * The most random type of simulation.
  */
 public class AggressiveStrategy implements StrategyType {
-  private static final int FOOD_RAND_MULTI = 1;
+  private static final float FOOD_RAND_MULTI = 1.0f;
   private static final float PRICE_RAND_MULTI = 0.01f;
 
   private static final float travelCost      = 1.0f;
-  private int                foodConsumption = 20;
+  private float                foodConsumption = 20.0f;
   private float              priceMultiplier = 0.7f;
   private final Difficulty   difficulty;
 
@@ -44,7 +44,7 @@ public class AggressiveStrategy implements StrategyType {
    * @return daily food consumption in units of food.
    */
   @Override
-  public int getFoodConsumption() {
+  public float getFoodConsumption() {
     return foodConsumption;
   }
 

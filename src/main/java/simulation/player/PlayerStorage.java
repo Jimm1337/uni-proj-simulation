@@ -7,6 +7,7 @@ import simulation.goods.*;
  */
 public class PlayerStorage extends StockBase implements TransactionChecker {
   private static final float        INITIAL_MONEY = 100.0f;
+  private static final Product INITIAL_FOOD = new Product(ProductType.FOOD, 100.0f);
   private static PlayerStorage instance;
 
   /**
@@ -18,6 +19,7 @@ public class PlayerStorage extends StockBase implements TransactionChecker {
       addProduct(new Product(type, 0.0f));
     }
     addMoney(INITIAL_MONEY);
+    addProduct(INITIAL_FOOD);
   }
 
   /**

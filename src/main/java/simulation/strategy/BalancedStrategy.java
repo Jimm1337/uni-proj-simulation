@@ -1,17 +1,16 @@
 package simulation.strategy;
 
 import io.arguments.Difficulty;
-import java.util.Random;
 
 /**
  * The midpoint of simulation randomness.
  */
 public class BalancedStrategy implements StrategyType {
-  private static final int FOOD_RAND_MULTI = 1;
+  private static final float FOOD_RAND_MULTI = 1.0f;
 
   private static final float priceMultiplier = 0.9f;
   private static final float travelCost      = 1.05f;
-  private int                foodConsumption = 15;
+  private float                foodConsumption = 15.0f;
   private final Difficulty   difficulty;
 
   /**
@@ -35,7 +34,7 @@ public class BalancedStrategy implements StrategyType {
    * @return daily food consumption in units of food.
    */
   @Override
-  public int getFoodConsumption() {
+  public float getFoodConsumption() {
     return foodConsumption;
   }
 

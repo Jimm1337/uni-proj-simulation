@@ -8,7 +8,7 @@ public interface StrategyType {
    * Gets daily food consumption in units of food.
    * @return daily food consumption in units of food.
    */
-  int getFoodConsumption();
+  float getFoodConsumption();
 
   /**
    * Gets price multiplier for transactions.

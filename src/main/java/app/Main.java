@@ -1,6 +1,5 @@
 package app;
 
-import io.arguments.Difficulty;
 import io.arguments.Parser;
 
 /**
@@ -27,5 +26,4 @@ public class Main {
   }
 }
 
-//todo: make StrategyType interface -> StrategyBase abstract class singleton
-//todo: extract random generation out of difficulty to another class.
+//todo: io

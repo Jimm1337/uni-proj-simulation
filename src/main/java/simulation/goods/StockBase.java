@@ -1,7 +1,9 @@
 package simulation.goods;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Base class for storage.
@@ -68,6 +70,14 @@ public abstract class StockBase {
    */
   public Product getProduct(ProductType type) {
     return stock.get(type);
+  }
+
+  /**
+   * Get the stock
+   * @return Map of Products.
+   */
+  public Map<ProductType, Product> getStock() {
+    return stock;
   }
 
   /**
