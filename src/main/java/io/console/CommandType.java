@@ -1,7 +1,8 @@
 package io.console;
 
 /**
- * Types of commands available to the simulation controller. With Runtime manual description.
+ * Types of commands available to the simulation controller. With Runtime manual
+ * description.
  */
 enum CommandType {
   GET_COMMAND,
@@ -22,7 +23,8 @@ enum CommandType {
 
   /**
    * Grab manual for each type.
-   * @return If command ought to be used by user return a description, else return ""
+   * @return If command ought to be used by user return a description, else
+   *   return ""
    */
   public String manualEntry() {
     switch (this) {

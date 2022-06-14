@@ -1,22 +1,22 @@
 package simulation.environment;
 
 import io.arguments.Difficulty;
+import java.util.ArrayList;
+import java.util.stream.IntStream;
 import simulation.player.PlayerState;
 import simulation.vilages.Road;
 import simulation.vilages.Village;
-import java.util.ArrayList;
-import java.util.stream.IntStream;
 
 /**
  * Stores and manages simulation's map.
  */
 public class VillageMap {
-  private static final int COUNT_OF_VILLAGES = 5;
-  private static final float POS_RAND_MULTI = 20.0f;
+  private static final int   COUNT_OF_VILLAGES = 5;
+  private static final float POS_RAND_MULTI    = 20.0f;
 
   ArrayList<Village> villages;
-  Difficulty difficulty;
-  static VillageMap instance;
+  Difficulty         difficulty;
+  static VillageMap  instance;
 
   /**
    * Singleton constructor, initializes map, grabs difficulty instance
@@ -32,9 +32,7 @@ public class VillageMap {
    * @return The only instance of this class.
    */
   static public VillageMap getInstance() {
-    if (instance == null) {
-      instance = new VillageMap();
-    }
+    if (instance == null) { instance = new VillageMap(); }
 
     return instance;
   }
@@ -45,10 +43,10 @@ public class VillageMap {
   public void regenerateMap() {
     villages = new ArrayList<>();
     IntStream.range(0, COUNT_OF_VILLAGES).forEach(i -> {
-      float randomX = difficulty.getRandomFloat() * POS_RAND_MULTI;
-      float randomY = difficulty.getRandomFloat() * POS_RAND_MULTI;
+      float    randomX        = difficulty.getRandomFloat() * POS_RAND_MULTI;
+      float    randomY        = difficulty.getRandomFloat() * POS_RAND_MULTI;
       Position randomPosition = new Position(randomX, randomY);
-      Village newVillage = new Village(randomPosition);
+      Village  newVillage     = new Village(randomPosition);
       villages.add(i, newVillage);
     });
   }
@@ -58,14 +56,14 @@ public class VillageMap {
    * @return A village with best prices.
    */
   public Village getBestPrices() {
-    Village currentBest = villages.get(0);
-    float currentBestPriceIndex = currentBest.getPriceIndex();
+    Village currentBest           = villages.get(0);
+    float   currentBestPriceIndex = currentBest.getPriceIndex();
 
     for (Village village : villages) {
       float thisVillagePriceIndex = village.getPriceIndex();
 
       if (thisVillagePriceIndex < currentBestPriceIndex) {
-        currentBest = village;
+        currentBest           = village;
         currentBestPriceIndex = thisVillagePriceIndex;
       }
     }
@@ -78,23 +76,23 @@ public class VillageMap {
    * @return A village closest to the player.
    */
   public Village getClosestToPlayer() {
-    final PlayerState playerState = PlayerState.getInstance();
-    final Position playerPosition = playerState.getCurrentPosition();
+    final PlayerState playerState    = PlayerState.getInstance();
+    final Position    playerPosition = playerState.getCurrentPosition();
 
-    Village currentBest = villages.get(0);
+    Village  currentBest         = villages.get(0);
     Position currentBestPosition = currentBest.getPosition();
-    Road currentBestRoad = new Road(playerPosition, currentBestPosition);
-    float currentBestDistance = currentBestRoad.calculateDistance();
+    Road     currentBestRoad = new Road(playerPosition, currentBestPosition);
+    float    currentBestDistance = currentBestRoad.calculateDistance();
 
     for (Village village : villages) {
       Position thisVillagePosition = village.getPosition();
-      Road thisVillageRoad = new Road(playerPosition, thisVillagePosition);
-      float thisVillageDistance = thisVillageRoad.calculateDistance();
+      Road     thisVillageRoad = new Road(playerPosition, thisVillagePosition);
+      float    thisVillageDistance = thisVillageRoad.calculateDistance();
 
       if (thisVillageDistance < currentBestDistance) {
-        currentBest = village;
+        currentBest         = village;
         currentBestPosition = thisVillagePosition;
-        currentBestRoad = thisVillageRoad;
+        currentBestRoad     = thisVillageRoad;
         currentBestDistance = thisVillageDistance;
       }
     }

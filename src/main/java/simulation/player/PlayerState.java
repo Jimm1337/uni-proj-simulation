@@ -10,14 +10,14 @@ public class PlayerState {
   private static PlayerState instance;
   private boolean            isAttacked;
   private Position           currentPosition;
-  private boolean isDead;
+  private boolean            isDead;
 
   /**
    * Singleton constructor.
    */
   private PlayerState() {
     isAttacked      = false;
-    isDead = false;
+    isDead          = false;
     currentPosition = new Position(0, 0);
   }
 

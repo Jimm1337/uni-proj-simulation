@@ -1,5 +1,10 @@
 package io.console;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.io.Console;
+import java.util.HashMap;
+import java.util.Map;
 import simulation.computation.TraverseBase;
 import simulation.computation.TraverseDistance;
 import simulation.computation.TraversePrices;
@@ -7,12 +12,6 @@ import simulation.strategy.AggressiveStrategy;
 import simulation.strategy.BalancedStrategy;
 import simulation.strategy.ConservativeStrategy;
 import simulation.strategy.StrategyType;
-
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.io.Console;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Handles input, both direct and Enter-confirmed

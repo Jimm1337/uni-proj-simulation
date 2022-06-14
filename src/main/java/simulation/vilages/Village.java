@@ -1,11 +1,10 @@
 package simulation.vilages;
 
 import io.arguments.Difficulty;
-import simulation.environment.Position;
-import simulation.goods.*;
-
 import java.util.HashMap;
 import java.util.Map;
+import simulation.environment.Position;
+import simulation.goods.*;
 
 /**
  * Represents a single Village.
@@ -17,14 +16,14 @@ public class Village extends StockBase implements TransactionChecker {
 
   private final Position position;
   private final Map<ProductType, Float> prices;
-  private final float priceIndex;
+  private final float                   priceIndex;
 
   /**
    * Initialize with random stock and prices. Set Position.
    * @param position Position of the village.
    */
   public Village(Position position) {
-    this.prices = new HashMap<>();
+    this.prices   = new HashMap<>();
     this.position = position;
     randomizeStock();
     randomizePrices();
@@ -40,12 +39,14 @@ public class Village extends StockBase implements TransactionChecker {
     clearMoney();
 
     for (ProductType type : ProductType.values()) {
-      float randomWeight = Math.abs(randomMachine.getRandomFloat() * STOCK_RAND_MULTI);
+      float randomWeight =
+        Math.abs(randomMachine.getRandomFloat() * STOCK_RAND_MULTI);
       Product productToAdd = new Product(type, randomWeight);
       addProduct(productToAdd);
     }
 
-    float randomVault = Math.abs(randomMachine.getRandomFloat() * MONEY_RAND_MULTI);
+    float randomVault =
+      Math.abs(randomMachine.getRandomFloat() * MONEY_RAND_MULTI);
     addMoney(randomVault);
   }
 
@@ -57,7 +58,8 @@ public class Village extends StockBase implements TransactionChecker {
     clearPrices();
 
     for (ProductType type : ProductType.values()) {
-      float randomPrice = Math.abs(randomMachine.getRandomFloat() * PRICE_RAND_MULTI);
+      float randomPrice =
+        Math.abs(randomMachine.getRandomFloat() * PRICE_RAND_MULTI);
       addPrice(type, randomPrice);
     }
   }
@@ -103,10 +105,10 @@ public class Village extends StockBase implements TransactionChecker {
    */
   @Override
   public boolean isTransactionPossible(Transaction transaction) {
-    float total = transaction.getTotal();
-    Product product = transaction.getProduct();
+    float           total           = transaction.getTotal();
+    Product         product         = transaction.getProduct();
     TransactionType transactionType = transaction.getTransactionType();
-    ProductType productType = product.getType();
+    ProductType     productType     = product.getType();
 
     switch (transactionType) {
       case BUY -> {
@@ -131,18 +133,18 @@ public class Village extends StockBase implements TransactionChecker {
   private float calculatePriceIndex() {
     float sumOfPrices = 0.0f;
     for (float price : prices.values()) {
-      sumOfPrices += price;
-    }
-    float simpleAverage = sumOfPrices / prices.size();
+          sumOfPrices += price;
+        }
+        float simpleAverage = sumOfPrices / prices.size();
 
-    return simpleAverage;
-  }
+        return simpleAverage;
+      }
 
-  /**
-   * Price index getter.
-   * @return Simple Average of prices.
-   */
-  public float getPriceIndex() {
-    return priceIndex;
+      /**
+       * Price index getter.
+       * @return Simple Average of prices.
+       */
+      public float getPriceIndex() {
+        return priceIndex;
+      }
   }
-}

@@ -11,7 +11,7 @@ public class Transaction {
   private final float           price;
   private final Product         product;
   private final TransactionType transactionType;
-  private final StrategyType strategyType;
+  private final StrategyType    strategyType;
 
   /**
    * Initialize the transaction with details.
@@ -20,11 +20,15 @@ public class Transaction {
    * @param transactionType The type of the transaction.
    * @param strategyType The selected strategy type.
    */
-  public Transaction(float price, Product product, TransactionType transactionType, StrategyType strategyType) {
-    this.price   = price;
-    this.product = product;
-    this.transactionType    = transactionType;
-    this.strategyType = strategyType;
+  public Transaction(
+    float           price,
+    Product         product,
+    TransactionType transactionType,
+    StrategyType    strategyType) {
+    this.price           = price;
+    this.product         = product;
+    this.transactionType = transactionType;
+    this.strategyType    = strategyType;
   }
 
   /**
@@ -64,9 +68,9 @@ public class Transaction {
    * @throws IllegalArgumentException When the transaction cannot be fulfilled.
    */
   public void execute(Village village) {
-    StockBase playerStorage = PlayerStorage.getInstance();
+    StockBase   playerStorage   = PlayerStorage.getInstance();
     final float priceMultiplier = strategyType.getPriceMultiplier();
-    final float value   = getTotal() * priceMultiplier;
+    final float value           = getTotal() * priceMultiplier;
 
     switch (transactionType) {
       case BUY -> {

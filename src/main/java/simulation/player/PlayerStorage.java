@@ -8,8 +8,9 @@ import simulation.strategy.StrategyType;
  * Handles the storage of goods, food and money through the simulation.
  */
 public class PlayerStorage extends StockBase implements TransactionChecker {
-  private static final float        INITIAL_MONEY = 100.0f;
-  private static final Product INITIAL_FOOD = new Product(ProductType.FOOD, 100.0f);
+  private static final float   INITIAL_MONEY = 100.0f;
+  private static final Product INITIAL_FOOD =
+    new Product(ProductType.FOOD, 100.0f);
   private static PlayerStorage instance;
 
   /**
@@ -40,10 +41,10 @@ public class PlayerStorage extends StockBase implements TransactionChecker {
    */
   @Override
   public boolean isTransactionPossible(Transaction transaction) {
-    float total = transaction.getTotal();
-    Product product = transaction.getProduct();
+    float           total           = transaction.getTotal();
+    Product         product         = transaction.getProduct();
     TransactionType transactionType = transaction.getTransactionType();
-    ProductType productType = product.getType();
+    ProductType     productType     = product.getType();
 
     switch (transactionType) {
       case BUY -> {

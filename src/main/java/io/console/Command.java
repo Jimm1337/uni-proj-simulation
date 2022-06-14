@@ -12,7 +12,7 @@ class Command {
    * @param type the type of command.
    */
   Command(CommandType type) {
-    this.type = type;
+    this.type  = type;
     this.param = null;
   }
 
@@ -22,7 +22,7 @@ class Command {
    * @param param param to be passed to the command.
    */
   Command(CommandType type, Param<?> param) {
-    this.type = type;
+    this.type  = type;
     this.param = param;
   }
 

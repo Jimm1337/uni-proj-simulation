@@ -1,5 +1,7 @@
 package simulation.environment;
 
+import java.lang.module.InvalidModuleDescriptorException;
+import java.util.stream.IntStream;
 import simulation.computation.BuyingAlgorithm;
 import simulation.computation.Dice;
 import simulation.computation.SellingAlgorithm;
@@ -11,24 +13,21 @@ import simulation.vilages.Road;
 import simulation.vilages.Thugs;
 import simulation.vilages.Village;
 
-import java.lang.module.InvalidModuleDescriptorException;
-import java.util.stream.IntStream;
-
 /**
  * Simulation execution class
  */
 public class Epochs {
-  private int count = 0;
-  private BuyingAlgorithm buyingAlgorithm;
-  private SellingAlgorithm sellingAlgorithm;
+  private int                 count = 0;
+  private BuyingAlgorithm     buyingAlgorithm;
+  private SellingAlgorithm    sellingAlgorithm;
   private final PlayerStorage playerStorage;
-  private final PlayerState playerState;
-  private StrategyType strategyType;
-  private TraverseBase traverseAlgorithm;
-  private final Dice dice;
-  private final VillageMap villageMap;
-  private boolean finishTheSimulation;
-  private Village currentVillage;
+  private final PlayerState   playerState;
+  private StrategyType        strategyType;
+  private TraverseBase        traverseAlgorithm;
+  private final Dice          dice;
+  private final VillageMap    villageMap;
+  private boolean             finishTheSimulation;
+  private Village             currentVillage;
 
   static private Epochs instance;
 
@@ -36,21 +35,22 @@ public class Epochs {
    * Constructor, construct using setters in controller.
    */
   private Epochs() {
-    this.playerStorage = PlayerStorage.getInstance();
-    this.playerState = PlayerState.getInstance();
-    this.dice = new Dice();
-    this.villageMap = VillageMap.getInstance();
+    this.playerStorage       = PlayerStorage.getInstance();
+    this.playerState         = PlayerState.getInstance();
+    this.dice                = new Dice();
+    this.villageMap          = VillageMap.getInstance();
     this.finishTheSimulation = false;
-    currentVillage = null;
+    currentVillage           = null;
   }
 
   /**
-   * Strategy type setter, init algorithms now, remember to call before advancing an epoch.
+   * Strategy type setter, init algorithms now, remember to call before
+   * advancing an epoch.
    * @param strategyType chosen strategy type.
    */
   public void setStrategyType(StrategyType strategyType) {
-    this.strategyType = strategyType;
-    this.buyingAlgorithm = new BuyingAlgorithm();
+    this.strategyType     = strategyType;
+    this.buyingAlgorithm  = new BuyingAlgorithm();
     this.sellingAlgorithm = new SellingAlgorithm();
   }
 
@@ -67,9 +67,7 @@ public class Epochs {
    * @return The only instance.
    */
   public static Epochs getInstance() {
-    if (instance == null) {
-      instance = new Epochs();
-    }
+    if (instance == null) { instance = new Epochs(); }
 
     return instance;
   }
@@ -78,9 +76,7 @@ public class Epochs {
    * Advance one epoch: Travel, Sell, Buy, Increment count
    */
   public void advance() {
-    if (count % 3 == 0) {
-      villageMap.regenerateMap();
-    }
+    if (count % 3 == 0) { villageMap.regenerateMap(); }
 
     if (finishTheSimulation) return;
     travelingSequence();
@@ -100,22 +96,24 @@ public class Epochs {
   }
 
   /**
-   * Execute the travelling sequence: consume daily food or die, pay the cost of travel or die, possibly get attacked, set current position and village.
+   * Execute the travelling sequence: consume daily food or die, pay the cost of
+   * travel or die, possibly get attacked, set current position and village.
    */
   private void travelingSequence() {
-    Village nextVillage = traverseAlgorithm.getNext();
+    Village  nextVillage         = traverseAlgorithm.getNext();
     Position nextVillagePosition = nextVillage.getPosition();
-    Position playerPosition = playerState.getCurrentPosition();
-    Road road = new Road(playerPosition, nextVillagePosition);
+    Position playerPosition      = playerState.getCurrentPosition();
+    Road     road = new Road(playerPosition, nextVillagePosition);
 
-    float risk = road.calculateRisk();
-    float distance = road.calculateDistance();
-    float costPerUnitOfRoad = strategyType.getTravelCost();
-    boolean toBeAttacked = dice.roll(risk);
+    float   risk              = road.calculateRisk();
+    float   distance          = road.calculateDistance();
+    float   costPerUnitOfRoad = strategyType.getTravelCost();
+    boolean toBeAttacked      = dice.roll(risk);
 
     playerStorage.consumeDailyFood();
 
-    float travelCost = Math.min(distance * costPerUnitOfRoad, playerStorage.getMoney());
+    float travelCost =
+      Math.min(distance * costPerUnitOfRoad, playerStorage.getMoney());
     playerStorage.subtractMoney(travelCost);
 
     if (Float.isNaN(playerStorage.getMoney())) {
@@ -144,8 +142,10 @@ public class Epochs {
   private void sellingSequence() {
     var transactions = sellingAlgorithm.generateTransactions(currentVillage);
     transactions.forEach(transaction -> {
-      boolean villageCanFulfil = currentVillage.isTransactionPossible(transaction);
-      boolean playerCanFulfil = playerStorage.isTransactionPossible(transaction);
+      boolean villageCanFulfil =
+        currentVillage.isTransactionPossible(transaction);
+      boolean playerCanFulfil =
+        playerStorage.isTransactionPossible(transaction);
 
       if (villageCanFulfil && playerCanFulfil) {
         transaction.execute(currentVillage);
@@ -156,11 +156,13 @@ public class Epochs {
   /**
    * Execute the buying sequence: generate Transactions and execute them
    */
-  private void buyingSequence () {
+  private void buyingSequence() {
     var transactions = buyingAlgorithm.generateTransactions(currentVillage);
     transactions.forEach(transaction -> {
-      boolean villageCanFulfil = currentVillage.isTransactionPossible(transaction);
-      boolean playerCanFulfil = playerStorage.isTransactionPossible(transaction);
+      boolean villageCanFulfil =
+        currentVillage.isTransactionPossible(transaction);
+      boolean playerCanFulfil =
+        playerStorage.isTransactionPossible(transaction);
 
       if (villageCanFulfil && playerCanFulfil) {
         transaction.execute(currentVillage);

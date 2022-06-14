@@ -6,9 +6,9 @@ import java.util.Random;
  * Defines multipliers known at the start of the simulation. Single instance
  */
 public class Difficulty {
-  private final int          rng;
-  private final float        stealMultiplier;
-  static Difficulty instance;
+  private final int   rng;
+  private final float stealMultiplier;
+  static Difficulty   instance;
 
   /**
    * Private constructor, construct using createInstance()
@@ -28,14 +28,14 @@ public class Difficulty {
    *   To 2.0 inclusive).
    */
   static void createInstance(int rng, float stealMultiplier) {
-    if (instance == null) {
-      instance = new Difficulty(rng, stealMultiplier);
-    }
+    if (instance == null) { instance = new Difficulty(rng, stealMultiplier); }
   }
 
   /**
-   * Gets the only instance of Difficulty produced by the parser. If the parser failed to produce valid Difficulty object throws.
-   * @throws RuntimeException When the parser didn't produce a valid instance at the start of the program.
+   * Gets the only instance of Difficulty produced by the parser. If the parser
+   * failed to produce valid Difficulty object throws.
+   * @throws RuntimeException When the parser didn't produce a valid instance at
+   *   the start of the program.
    * @return The only Difficulty instance
    */
   public static Difficulty getInstance() {

@@ -1,5 +1,10 @@
 package io.console;
 
+import java.awt.event.KeyEvent;
+import java.time.Duration;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import simulation.computation.TraverseBase;
 import simulation.computation.TraverseDistance;
 import simulation.computation.TraversePrices;
@@ -7,32 +12,26 @@ import simulation.environment.Epochs;
 import simulation.strategy.AggressiveStrategy;
 import simulation.strategy.StrategyType;
 
-import java.awt.event.KeyEvent;
-import java.time.Duration;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 /**
  * Controls the program flow, executes commands.
  */
 public class Controller {
   private static final int AUTO_INCREMENT_PAUSE_SECONDS = 3;
 
-  Input input;
-  Output output;
-  Epochs epochs;
-  Command nextCommand;
+  Input                    input;
+  Output                   output;
+  Epochs                   epochs;
+  Command                  nextCommand;
   ScheduledExecutorService autoExecutor;
 
   /**
    * Constructor, creates io, grabs Epochs (main simulation class) instance.
    */
   public Controller() {
-    this.input = new Input();
-    this.output = new Output();
-    this.epochs = Epochs.getInstance();
-    this.nextCommand = new Command(CommandType.ENTRY);
+    this.input        = new Input();
+    this.output       = new Output();
+    this.epochs       = Epochs.getInstance();
+    this.nextCommand  = new Command(CommandType.ENTRY);
     this.autoExecutor = null;
   }
 
@@ -41,7 +40,7 @@ public class Controller {
    */
   public void entry() {
     while (nextCommand != null) {
-      try{
+      try {
         executeCommand(nextCommand);
       } catch (IllegalArgumentException err) {
         output.emitInvalidCommand();
@@ -53,11 +52,12 @@ public class Controller {
   /**
    * Execute a given command.
    * @param command The command to be executed.
-   * @throws IllegalArgumentException When the param doesn't is of invalid type for given command type.
+   * @throws IllegalArgumentException When the param doesn't is of invalid type
+   *   for given command type.
    */
   private void executeCommand(Command command) {
     CommandType commandType = command.getCommandType();
-    Param<?> param = command.getParam();
+    Param<?>    param       = command.getParam();
 
     switch (commandType) {
       case GET_COMMAND -> {

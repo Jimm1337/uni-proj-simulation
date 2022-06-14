@@ -10,7 +10,7 @@ public class BalancedStrategy implements StrategyType {
 
   private static final float priceMultiplier = 0.9f;
   private static final float travelCost      = 1.05f;
-  private float                foodConsumption = 15.0f;
+  private float              foodConsumption = 15.0f;
   private final Difficulty   difficulty;
 
   /**

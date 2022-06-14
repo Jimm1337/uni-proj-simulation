@@ -14,16 +14,18 @@ public class Thugs {
   private final float stealPercent;
 
   /**
-   * Constructor, calculates the percentage of resource to be stolen in an event.
+   * Constructor, calculates the percentage of resource to be stolen in an
+   * event.
    */
   public Thugs() {
-    Difficulty difficulty = Difficulty.getInstance();
+    Difficulty  difficulty = Difficulty.getInstance();
     final float stealMulti = difficulty.getStealMultiplier();
-    stealPercent = BASE_STEAL_SEVERITY * stealMulti;
+    stealPercent           = BASE_STEAL_SEVERITY * stealMulti;
   }
 
   /**
-   * Steal action to be executed in a theft event. Subtracts percentage of resource calculated in the constructor from current stock.
+   * Steal action to be executed in a theft event. Subtracts percentage of
+   * resource calculated in the constructor from current stock.
    */
   public void steal() {
     PlayerStorage playerStorage = PlayerStorage.getInstance();
@@ -33,10 +35,10 @@ public class Thugs {
     playerStorage.subtractMoney(moneyToSteal);
 
     for (ProductType type : ProductType.values()) {
-      Product current = playerStorage.getProduct(type);
-      float currentWeight = current.getWeight();
-      float weightToSteal = currentWeight * stealPercent;
-      Product toSteal = new Product(type, weightToSteal);
+      Product current       = playerStorage.getProduct(type);
+      float   currentWeight = current.getWeight();
+      float   weightToSteal = currentWeight * stealPercent;
+      Product toSteal       = new Product(type, weightToSteal);
 
       playerStorage.subtractProduct(toSteal);
     }

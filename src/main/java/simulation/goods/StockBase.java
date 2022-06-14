@@ -61,11 +61,12 @@ public abstract class StockBase {
   public void subtractProduct(Product toSubtract) {
     ProductType typeToSubtract   = toSubtract.getType();
     float       weightToSubtract = toSubtract.getWeight();
-    Product     working          = stock.getOrDefault(typeToSubtract, new Product(typeToSubtract, 0.0f));
+    Product     working =
+      stock.getOrDefault(typeToSubtract, new Product(typeToSubtract, 0.0f));
 
     if (working.getWeight() < toSubtract.getWeight()) {
       throw new IllegalArgumentException(
-          "Weight After subtraction cannot be negative.");
+        "Weight After subtraction cannot be negative.");
     }
     working.addWeight(weightToSubtract);
   }
@@ -117,7 +118,7 @@ public abstract class StockBase {
 
     if (money < toSubtract) {
       throw new IllegalArgumentException(
-          "Money amount after subtraction cannot be negative.");
+        "Money amount after subtraction cannot be negative.");
     }
     money -= toSubtract;
   }
