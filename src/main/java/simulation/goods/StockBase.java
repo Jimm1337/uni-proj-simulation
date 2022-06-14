@@ -41,7 +41,14 @@ public abstract class StockBase {
     ProductType typeToAdd   = toAdd.getType();
     float       weightToAdd = toAdd.getWeight();
 
-    stock.get(typeToAdd).addWeight(weightToAdd);
+    if (stock.containsKey(typeToAdd)) {
+      Product working = stock.get(typeToAdd);
+      working.addWeight(weightToAdd);
+      stock.put(typeToAdd, working);
+      return;
+    }
+
+    stock.put(typeToAdd, new Product(typeToAdd, weightToAdd));
   }
 
   /**
@@ -54,7 +61,7 @@ public abstract class StockBase {
   public void subtractProduct(Product toSubtract) {
     ProductType typeToSubtract   = toSubtract.getType();
     float       weightToSubtract = toSubtract.getWeight();
-    Product     working          = stock.get(typeToSubtract);
+    Product     working          = stock.getOrDefault(typeToSubtract, new Product(typeToSubtract, 0.0f));
 
     if (working.getWeight() < toSubtract.getWeight()) {
       throw new IllegalArgumentException(

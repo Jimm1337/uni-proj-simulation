@@ -23,6 +23,8 @@ public class Main {
           int RNG - the value of randomness in the simulation. (range <2, 6>)
           float StealMulti - The multiplier for amount lost during random theft event. (range <0.5, 2.0>)
       """);
+
+      return;
     }
 
     Controller consoleController = new Controller();
@@ -30,5 +32,6 @@ public class Main {
   }
 }
 
-//todo: reduce singletons to just Epochs class.
-//todo: impl JSON, save state
+//todo: (3) reduce singletons to just Epochs class.
+//todo: (2) impl JSON, save state
+//todo: (1) fix negative prices, fix output table, fix output prompts (no new line), fix position -> consistent type

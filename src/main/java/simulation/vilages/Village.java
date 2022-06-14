@@ -4,6 +4,7 @@ import io.arguments.Difficulty;
 import simulation.environment.Position;
 import simulation.goods.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -15,7 +16,7 @@ public class Village extends StockBase implements TransactionChecker {
   private static final float PRICE_RAND_MULTI = 10.0f;
 
   private final Position position;
-  private Map<ProductType, Float> prices;
+  private final Map<ProductType, Float> prices;
   private final float priceIndex;
 
   /**
@@ -23,6 +24,7 @@ public class Village extends StockBase implements TransactionChecker {
    * @param position Position of the village.
    */
   public Village(Position position) {
+    this.prices = new HashMap<>();
     this.position = position;
     randomizeStock();
     randomizePrices();

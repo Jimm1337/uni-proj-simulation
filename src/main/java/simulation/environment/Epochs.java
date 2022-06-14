@@ -18,12 +18,12 @@ import java.util.stream.IntStream;
  */
 public class Epochs {
   private int count = 0;
-  private final BuyingAlgorithm buyingAlgorithm;
-  private final SellingAlgorithm sellingAlgorithm;
+  private BuyingAlgorithm buyingAlgorithm;
+  private SellingAlgorithm sellingAlgorithm;
   private final PlayerStorage playerStorage;
   private final PlayerState playerState;
-  private final StrategyType strategyType;
-  private final TraverseBase traverseAlgorithm;
+  private StrategyType strategyType;
+  private TraverseBase traverseAlgorithm;
   private final Dice dice;
   private final VillageMap villageMap;
   private boolean finishTheSimulation;
@@ -32,19 +32,11 @@ public class Epochs {
   static private Epochs instance;
 
   /**
-   * Constructor, construct using the init method instead.
-   * @param buyingAlgorithm buying algorithm class.
-   * @param sellingAlgorithm selling algorithm class.
-   * @param strategyType strategy type.
-   * @param traverseAlgorithm traversal algorithm
+   * Constructor, construct using setters in controller.
    */
-  private Epochs(BuyingAlgorithm buyingAlgorithm, SellingAlgorithm sellingAlgorithm, StrategyType strategyType, TraverseBase traverseAlgorithm) {
-    this.buyingAlgorithm = buyingAlgorithm;
-    this.sellingAlgorithm = sellingAlgorithm;
+  private Epochs() {
     this.playerStorage = PlayerStorage.getInstance();
     this.playerState = PlayerState.getInstance();
-    this.strategyType = strategyType;
-    this.traverseAlgorithm = traverseAlgorithm;
     this.dice = new Dice();
     this.villageMap = VillageMap.getInstance();
     this.finishTheSimulation = false;
@@ -52,16 +44,21 @@ public class Epochs {
   }
 
   /**
-   * Init method used either when loading or creating a new simulation.
-   * @param buyingAlgorithm buying algorithm class.
-   * @param sellingAlgorithm selling algorithm class.
-   * @param strategyType strategy type.
-   * @param traverseAlgorithm traversal algorithm
+   * Strategy type setter, init algorithms now, remember to call before advancing an epoch.
+   * @param strategyType chosen strategy type.
    */
-  public static void init(BuyingAlgorithm buyingAlgorithm, SellingAlgorithm sellingAlgorithm, StrategyType strategyType, TraverseBase traverseAlgorithm) {
-    if (instance == null) {
-      instance = new Epochs(buyingAlgorithm, sellingAlgorithm, strategyType, traverseAlgorithm);
-    }
+  public void setStrategyType(StrategyType strategyType) {
+    this.strategyType = strategyType;
+    this.buyingAlgorithm = new BuyingAlgorithm();
+    this.sellingAlgorithm = new SellingAlgorithm();
+  }
+
+  /**
+   * Traverse algorithm setter, remember to call before advancing an epoch.
+   * @param traverseAlgorithm chosen traversal algorithm.
+   */
+  public void setTraverseAlgorithm(TraverseBase traverseAlgorithm) {
+    this.traverseAlgorithm = traverseAlgorithm;
   }
 
   /**
@@ -70,7 +67,7 @@ public class Epochs {
    */
   public static Epochs getInstance() {
     if (instance == null) {
-      throw new RuntimeException("Failed to init Epochs");
+      instance = new Epochs();
     }
 
     return instance;
@@ -80,6 +77,7 @@ public class Epochs {
    * Advance one epoch: Travel, Sell, Buy, Increment count
    */
   public void advance() {
+    if (finishTheSimulation) return;
     travelingSequence();
     if (finishTheSimulation) return;
 
@@ -134,7 +132,7 @@ public class Epochs {
    * Execute the selling sequence: generate Transactions and execute them
    */
   private void sellingSequence() {
-    var transactions = sellingAlgorithm.generateTransactions();
+    var transactions = sellingAlgorithm.generateTransactions(currentVillage);
     transactions.forEach(transaction -> transaction.execute(currentVillage));
   }
 
@@ -142,7 +140,7 @@ public class Epochs {
    * Execute the buying sequence: generate Transactions and execute them
    */
   private void buyingSequence () {
-    var transactions = buyingAlgorithm.generateTransactions();
+    var transactions = buyingAlgorithm.generateTransactions(currentVillage);
     transactions.forEach(transaction -> transaction.execute(currentVillage));
   }
 

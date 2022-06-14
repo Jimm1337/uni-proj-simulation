@@ -49,7 +49,7 @@ public class VillageMap {
       int randomY = difficulty.getRandomInt() * POS_RAND_MULTI;
       Position randomPosition = new Position(randomX, randomY);
       Village newVillage = new Village(randomPosition);
-      villages.set(i, newVillage);
+      villages.add(i, newVillage);
     });
   }
 

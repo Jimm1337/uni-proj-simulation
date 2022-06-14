@@ -1,5 +1,6 @@
 package simulation.computation;
 
+import simulation.environment.Epochs;
 import simulation.goods.Product;
 import simulation.goods.ProductType;
 import simulation.goods.Transaction;
@@ -16,20 +17,19 @@ public class SellingAlgorithm {
 
   PlayerStorage playerStorage;
   StrategyType strategyType;
-  Village village;
 
   private static SellingAlgorithm instance;
 
-  public SellingAlgorithm(StrategyType strategyType, Village village) {
-    this.strategyType = strategyType;
-    this.village = village;
+  public SellingAlgorithm() {
+    Epochs epochs = Epochs.getInstance();
+    this.strategyType = epochs.getStrategyType();
     playerStorage = PlayerStorage.getInstance();
   }
 
-  public List<Transaction> generateTransactions() {
+  public List<Transaction> generateTransactions(Village village) {
     List<Transaction> ret = new ArrayList<>(ProductType.values().length);
 
-    Map<ProductType, Float> weights = generateWeights();
+    Map<ProductType, Float> weights = generateWeights(village);
 
     for (ProductType type : ProductType.values()) {
       float weightToSell = weights.get(type);
@@ -43,7 +43,7 @@ public class SellingAlgorithm {
     return ret;
   }
 
-  private Set<Map.Entry<Float, ProductType>> getDescendingPricesSet() {
+  private Set<Map.Entry<Float, ProductType>> getDescendingPricesSet(Village village) {
     Map<Float, ProductType> prices = new TreeMap<>(Comparator.reverseOrder());
     for (ProductType type : ProductType.values()) {
       float price = village.getPrice(type);
@@ -52,12 +52,12 @@ public class SellingAlgorithm {
     return prices.entrySet();
   }
 
-  private Map<ProductType, Float> generatePercentages() {
+  private Map<ProductType, Float> generatePercentages(Village village) {
     Map<ProductType, Float> ret = new HashMap<>();
 
     //insert into returning map with generated descending prices set
     int i = 0;
-    for (Map.Entry<Float, ProductType> entry : getDescendingPricesSet()) {
+    for (Map.Entry<Float, ProductType> entry : getDescendingPricesSet(village)) {
       float percentage = TRANSACTION_RATIOS[i];
       ProductType type = entry.getValue();
       ret.put(type, percentage);
@@ -67,10 +67,10 @@ public class SellingAlgorithm {
     return ret;
   }
 
-  private Map<ProductType, Float> generateWeights() {
+  private Map<ProductType, Float> generateWeights(Village village) {
     Map<ProductType, Float> ret = new HashMap<>();
 
-    Map<ProductType, Float> percentages = generatePercentages();
+    Map<ProductType, Float> percentages = generatePercentages(village);
     Map<ProductType, Product> playerStock = playerStorage.getStock();
     float villageMoney = village.getMoney();
 

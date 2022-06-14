@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
 public class Output {
   private static final String CLEAR_SCREEN_ANSI = "\033[H\033[2J";
   private static final String PROMPT_TEXT = "Command (h<Enter> for help): ";
-  private static final String INVALID_COMMAND_TEXT = "Invalid command!";
+  private static final String INVALID_COMMAND_TEXT = "Invalid command-argument combination!";
   private static final String VILLAGE_SPACING = "25";
   private static final String HEADER = "~~~ Merchant Simulation ~~~";
   private static final String LOAD_MESSAGE = "Load?[y/n]: ";
@@ -30,6 +30,7 @@ public class Output {
   private static final String INVALID_TRAVERSE_MESSAGE = "Invalid traverse method!";
   private static final String PRESS_TO_STOP_MESSAGE = "Press 's' to stop.";
   private static final String FINAL_SAVE_QUESTION_MESSAGE = "Save?[y/n]: ";
+  private static final String TRY_AGAIN_MESSAGE = "Try again?[y/n]: ";
 
   private final Epochs epochs;
   private final String cachedHelp;
@@ -113,6 +114,16 @@ public class Output {
     draw(PRESS_TO_STOP_MESSAGE);
   }
 
+  /**
+   * Ask for another try.
+   */
+  public void emitTryAgain() {
+    draw(TRY_AGAIN_MESSAGE);
+  }
+
+  /**
+   * Ask if the simulation result should be saved after it has finished.
+   */
   public void emitFinalSaveQuestion() {
     draw(FINAL_SAVE_QUESTION_MESSAGE);
   }
@@ -134,6 +145,15 @@ public class Output {
     }
 
     draw(cachedHelp);
+  }
+
+  /**
+   * Print final message.
+   */
+  public void emitFinalStats() {
+    String message = "Simulation finished!\n" + "Epochs count: " + epochs.getCount() + '\n';
+
+    draw(message);
   }
 
   /**
