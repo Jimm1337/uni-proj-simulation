@@ -47,7 +47,10 @@ public class Output {
    * Clears screen.
    */
   public void clearScreen() {
-    System.out.print(CLEAR_SCREEN_ANSI);
+    try {
+      Runtime.getRuntime().exec("clear");
+    } catch (Throwable ignored) {}
+
     System.out.flush();
   }
 

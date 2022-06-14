@@ -65,7 +65,9 @@ public class PlayerStorage extends StockBase implements TransactionChecker {
    * Consumes daily food or dies if not enough food left.
    */
   public void consumeDailyFood() {
-    StrategyType strategy = Epochs.getInstance().getStrategyType();
+    Epochs epochs = Epochs.getInstance();
+    StrategyType strategy = epochs.getStrategyType();
+
     float consumption = strategy.getFoodConsumption();
 
     Product foodStock = getProduct(ProductType.FOOD);

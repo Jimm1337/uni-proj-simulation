@@ -41,7 +41,12 @@ public class Controller {
    */
   public void entry() {
     while (nextCommand != null) {
-      executeCommand(nextCommand);
+      try{
+        executeCommand(nextCommand);
+      } catch (IllegalArgumentException err) {
+        output.emitInvalidCommand();
+        executeCommand(new Command(CommandType.GET_COMMAND));
+      }
     }
   }
 
@@ -141,6 +146,8 @@ public class Controller {
   }
 
   private void handleResume(String filename) {
+    System.out.println("Unimplemented.");
+    nextCommand = new Command(CommandType.SET_STRATEGY);
     //todo: load json
   }
 
@@ -191,9 +198,10 @@ public class Controller {
   }
 
   private void handleSaveQuit(String filename) {
+    System.out.println("Unimplemented.");
     //todo: write json
 
-    nextCommand = null;
+    nextCommand = new Command(CommandType.QUIT);
   }
 
   private void handleQuit() {
@@ -218,8 +226,6 @@ public class Controller {
 
     if (save) {
       String filename = input.getStringEntered();
-      //todo: json save
-
       nextCommand = new Command(CommandType.SAVE_QUIT, new Param<>(filename));
       return;
     }
