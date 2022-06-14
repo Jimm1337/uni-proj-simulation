@@ -76,4 +76,12 @@ public class PlayerState {
   public boolean isDead() {
     return isDead;
   }
+
+  /**
+   * Set dead flag.
+   * @param dead state.
+   */
+  public void setDead(boolean dead) {
+    isDead = dead;
+  }
 }

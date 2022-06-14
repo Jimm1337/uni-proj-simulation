@@ -1,7 +1,10 @@
 package io.console;
 
 import simulation.computation.TraverseBase;
+import simulation.computation.TraverseDistance;
+import simulation.computation.TraversePrices;
 import simulation.environment.Epochs;
+import simulation.strategy.AggressiveStrategy;
 import simulation.strategy.StrategyType;
 
 import java.awt.event.KeyEvent;
@@ -85,12 +88,6 @@ public class Controller {
         }
         handleAdvanceBy(by);
       }
-      case ADVANCE_AUTO -> {
-        handleAdvanceAuto();
-      }
-      case ADVANCE_STOP -> {
-        handleAdvanceStop();
-      }
       case SAVE_QUIT -> {
         String filename;
         try {
@@ -136,6 +133,11 @@ public class Controller {
       return;
     }
     nextCommand = new Command(CommandType.SET_STRATEGY);
+
+    //debug entry
+//    epochs.setStrategyType(new AggressiveStrategy());
+//    epochs.setTraverseAlgorithm(new TraverseDistance());
+//    while (true) epochs.advance();
   }
 
   private void handleResume(String filename) {
@@ -188,24 +190,6 @@ public class Controller {
     nextCommand = new Command(CommandType.GET_COMMAND);
   }
 
-  private void handleAdvanceAuto() {
-    do {
-      epochs.advance();
-      if (epochs.isSimulationFinished()) {
-        finalSequence();
-        return;
-      }
-      output.emitField();
-      output.emitStopHint();
-    } while (!input.isCurrentlyPressed(KeyEvent.VK_S));
-
-    nextCommand = new Command(CommandType.ADVANCE_STOP);
-  }
-
-  private void handleAdvanceStop() {
-    nextCommand = new Command(CommandType.GET_COMMAND);
-  }
-
   private void handleSaveQuit(String filename) {
     //todo: write json
 
@@ -219,7 +203,7 @@ public class Controller {
   private void handleHelp() {
     output.clearScreen();
     output.emitHelpPage();
-    while(!input.isCurrentlyPressed(KeyEvent.VK_ENTER));
+    input.getStringEntered();
     nextCommand = new Command(CommandType.GET_COMMAND);
   }
 

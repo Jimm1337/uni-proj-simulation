@@ -11,6 +11,7 @@ import simulation.vilages.Road;
 import simulation.vilages.Thugs;
 import simulation.vilages.Village;
 
+import java.lang.module.InvalidModuleDescriptorException;
 import java.util.stream.IntStream;
 
 /**
@@ -77,6 +78,10 @@ public class Epochs {
    * Advance one epoch: Travel, Sell, Buy, Increment count
    */
   public void advance() {
+    if (count % 3 == 0) {
+      villageMap.regenerateMap();
+    }
+
     if (finishTheSimulation) return;
     travelingSequence();
     if (finishTheSimulation) return;
@@ -95,7 +100,7 @@ public class Epochs {
   }
 
   /**
-   * Execute the travelling sequence: consume daily food or die, pay the cost of travel, possibly get attacked, set current position and village.
+   * Execute the travelling sequence: consume daily food or die, pay the cost of travel or die, possibly get attacked, set current position and village.
    */
   private void travelingSequence() {
     Village nextVillage = traverseAlgorithm.getNext();
@@ -109,13 +114,18 @@ public class Epochs {
     boolean toBeAttacked = dice.roll(risk);
 
     playerStorage.consumeDailyFood();
+
+    float travelCost = Math.min(distance * costPerUnitOfRoad, playerStorage.getMoney());
+    playerStorage.subtractMoney(travelCost);
+
+    if (Float.isNaN(playerStorage.getMoney())) {
+      throw new NumberFormatException("NaN");
+    }
+
     if (playerState.isDead()) {
       finishTheSimulation = true;
       return;
     }
-
-    float travelCost = distance * costPerUnitOfRoad;
-    playerStorage.subtractMoney(travelCost);
 
     playerState.setAttacked(false);
     if (toBeAttacked) {
@@ -133,7 +143,14 @@ public class Epochs {
    */
   private void sellingSequence() {
     var transactions = sellingAlgorithm.generateTransactions(currentVillage);
-    transactions.forEach(transaction -> transaction.execute(currentVillage));
+    transactions.forEach(transaction -> {
+      boolean villageCanFulfil = currentVillage.isTransactionPossible(transaction);
+      boolean playerCanFulfil = playerStorage.isTransactionPossible(transaction);
+
+      if (villageCanFulfil && playerCanFulfil) {
+        transaction.execute(currentVillage);
+      }
+    });
   }
 
   /**
@@ -141,7 +158,14 @@ public class Epochs {
    */
   private void buyingSequence () {
     var transactions = buyingAlgorithm.generateTransactions(currentVillage);
-    transactions.forEach(transaction -> transaction.execute(currentVillage));
+    transactions.forEach(transaction -> {
+      boolean villageCanFulfil = currentVillage.isTransactionPossible(transaction);
+      boolean playerCanFulfil = playerStorage.isTransactionPossible(transaction);
+
+      if (villageCanFulfil && playerCanFulfil) {
+        transaction.execute(currentVillage);
+      }
+    });
   }
 
   /**

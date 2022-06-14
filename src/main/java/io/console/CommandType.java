@@ -32,12 +32,6 @@ enum CommandType {
       case ADVANCE_BY -> {
         return "(ab :COUNT<Enter>) |Advance by| - advance by a fixed count of epochs.\n";
       }
-      case ADVANCE_AUTO -> {
-        return "(aa<Enter>) |Advance auto| - keep advancing until an Advance stop is received.\n";
-      }
-      case ADVANCE_STOP -> {
-        return "(s - when in Advance auto) |Advance stop| - stop advancing.\n";
-      }
       case SAVE_QUIT -> {
         return "(sq :FILENAME<Enter>) |Save Quit| - save current state and exit.\n";
       }

@@ -49,6 +49,7 @@ public class SellingAlgorithm {
       float price = village.getPrice(type);
       prices.put(price, type);
     }
+
     return prices.entrySet();
   }
 
@@ -58,7 +59,7 @@ public class SellingAlgorithm {
     //insert into returning map with generated descending prices set
     int i = 0;
     for (Map.Entry<Float, ProductType> entry : getDescendingPricesSet(village)) {
-      float percentage = TRANSACTION_RATIOS[i];
+      float percentage = PERCENT_TO_SELL_OFF * TRANSACTION_RATIOS[i];
       ProductType type = entry.getValue();
       ret.put(type, percentage);
       ++i;
@@ -79,9 +80,10 @@ public class SellingAlgorithm {
     for (Map.Entry<ProductType, Float> entry : percentages.entrySet()) {
       ProductType type = entry.getKey();
       Product stock = playerStock.get(type);
+      float toSellFraq = entry.getValue();
       float price = village.getPrice(type);
-      float targetWeightToSell = stock.getWeight() * PERCENT_TO_SELL_OFF;
-      float villageCanAfford = villageMoney / price;
+      float targetWeightToSell = stock.getWeight() * toSellFraq;
+      float villageCanAfford = (villageMoney / price) * TRANSACTION_RATIOS[0];
       ret.put(type, Math.min(targetWeightToSell, villageCanAfford));
       ++i;
     }

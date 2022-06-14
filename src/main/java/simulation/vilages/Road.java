@@ -30,7 +30,7 @@ public class Road {
    * @return Distance between the positions.
    */
   public float calculateDistance() {
-    return (float)Math.sqrt(start.getX() * finish.getX() + start.getY() * finish.getY());
+    return (float)Math.sqrt(Math.pow(start.getX() - finish.getX(), 2) + Math.pow(start.getY() * finish.getY(), 2));
   }
 
   /**
@@ -39,7 +39,7 @@ public class Road {
    */
   public float calculateRisk() {
     final float distance = calculateDistance();
-    final float riskPerUnit = difficulty.getRandomFloat() * RISK_RAND_MULTI;
+    final float riskPerUnit = Math.abs(difficulty.getRandomFloat() * RISK_RAND_MULTI);
 
     return distance * riskPerUnit;
   }

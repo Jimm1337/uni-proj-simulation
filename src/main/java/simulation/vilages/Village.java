@@ -40,12 +40,13 @@ public class Village extends StockBase implements TransactionChecker {
     clearMoney();
 
     for (ProductType type : ProductType.values()) {
-      float randomWeight = randomMachine.getRandomFloat() * STOCK_RAND_MULTI;
+      float randomWeight = Math.abs(randomMachine.getRandomFloat() * STOCK_RAND_MULTI);
       Product productToAdd = new Product(type, randomWeight);
       addProduct(productToAdd);
     }
 
-    addMoney(randomMachine.getRandomFloat() * MONEY_RAND_MULTI);
+    float randomVault = Math.abs(randomMachine.getRandomFloat() * MONEY_RAND_MULTI);
+    addMoney(randomVault);
   }
 
   /**
@@ -56,7 +57,7 @@ public class Village extends StockBase implements TransactionChecker {
     clearPrices();
 
     for (ProductType type : ProductType.values()) {
-      float randomPrice = randomMachine.getRandomFloat() * PRICE_RAND_MULTI;
+      float randomPrice = Math.abs(randomMachine.getRandomFloat() * PRICE_RAND_MULTI);
       addPrice(type, randomPrice);
     }
   }

@@ -18,38 +18,13 @@ import java.util.Map;
  * Handles input, both direct and Enter-confirmed
  */
 public class Input {
-  Map<Integer, Boolean> keysPressed;
-  KeyboardFocusManager kbFocusMgr;
   Console console;
 
   /**
    * Constructor, grabs kb handle, inits key status map
    */
   public Input() {
-    keysPressed = new HashMap<>();
     console = System.console();
-
-    kbFocusMgr = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-
-    kbFocusMgr.addKeyEventDispatcher(ev -> {
-      synchronized (Input.class) {
-        int keyCode = ev.getKeyCode();
-        switch (ev.getID()) {
-          case KeyEvent.KEY_PRESSED -> keysPressed.put(keyCode, true);
-          case KeyEvent.KEY_RELEASED -> keysPressed.put(keyCode, false);
-        }
-      }
-      return false;
-    });
-  }
-
-  /**
-   * Check if a key is currently pressed.
-   * @param keyCode KeyEvent.VK_[X]
-   * @return true if currently pressed.
-   */
-  public boolean isCurrentlyPressed(int keyCode) {
-    return keysPressed.getOrDefault(keyCode, false);
   }
 
   /**

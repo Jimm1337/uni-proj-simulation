@@ -110,6 +110,11 @@ public abstract class StockBase {
    * @throws IllegalArgumentException When the stock of money is not enough.
    */
   public void subtractMoney(float toSubtract) {
+    if (money == toSubtract) {
+      money = 0.0f;
+      return;
+    }
+
     if (money < toSubtract) {
       throw new IllegalArgumentException(
           "Money amount after subtraction cannot be negative.");

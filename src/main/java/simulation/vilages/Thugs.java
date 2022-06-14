@@ -9,7 +9,7 @@ import simulation.player.PlayerStorage;
  * Thugs class, used to calculate and proceed with loses in a theft event.
  */
 public class Thugs {
-  private static final float BASE_STEAL_SEVERITY = 0.4f;
+  private static final float BASE_STEAL_SEVERITY = 0.3f;
 
   private final float stealPercent;
 
@@ -31,7 +31,6 @@ public class Thugs {
     float currentMoney = playerStorage.getMoney();
     float moneyToSteal = currentMoney * stealPercent;
     playerStorage.subtractMoney(moneyToSteal);
-
 
     for (ProductType type : ProductType.values()) {
       Product current = playerStorage.getProduct(type);

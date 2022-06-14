@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
  */
 public class VillageMap {
   private static final int COUNT_OF_VILLAGES = 5;
-  private static final int POS_RAND_MULTI = 20;
+  private static final float POS_RAND_MULTI = 20.0f;
 
   ArrayList<Village> villages;
   Difficulty difficulty;
@@ -22,7 +22,6 @@ public class VillageMap {
    * Singleton constructor, initializes map, grabs difficulty instance
    */
   private VillageMap() {
-    villages = new ArrayList<>(COUNT_OF_VILLAGES);
     difficulty = Difficulty.getInstance();
 
     regenerateMap();
@@ -44,9 +43,10 @@ public class VillageMap {
    * Randomly generate villages
    */
   public void regenerateMap() {
+    villages = new ArrayList<>();
     IntStream.range(0, COUNT_OF_VILLAGES).forEach(i -> {
-      int randomX = difficulty.getRandomInt() * POS_RAND_MULTI;
-      int randomY = difficulty.getRandomInt() * POS_RAND_MULTI;
+      float randomX = difficulty.getRandomFloat() * POS_RAND_MULTI;
+      float randomY = difficulty.getRandomFloat() * POS_RAND_MULTI;
       Position randomPosition = new Position(randomX, randomY);
       Village newVillage = new Village(randomPosition);
       villages.add(i, newVillage);

@@ -33,7 +33,7 @@ public class Output {
   private static final String TRY_AGAIN_MESSAGE = "Try again?[y/n]: ";
 
   private final Epochs epochs;
-  private final String cachedHelp;
+  private String cachedHelp;
 
   /**
    * Grabs epochs, prepares cachedHelp for lazy evaluation.
@@ -62,14 +62,14 @@ public class Output {
    * Ask for load.
    */
   public void emitLoadQuestion() {
-    draw(LOAD_MESSAGE);
+    drawPromptLike(LOAD_MESSAGE);
   }
 
   /**
    * Ask for filename.
    */
   public void emitFilenameQuestion() {
-    draw(FILENAME_MESSAGE);
+    drawPromptLike(FILENAME_MESSAGE);
   }
 
   /**
@@ -83,7 +83,7 @@ public class Output {
    * Ask for strategy type.
    */
   public void emitStrategyQuestion() {
-    draw(STRATEGY_MESSAGE);
+    drawPromptLike(STRATEGY_MESSAGE);
   }
 
   /**
@@ -97,7 +97,7 @@ public class Output {
    * Ask for traverse strategy.
    */
   public void emitTraverseQuestion() {
-    draw(TRAVERSE_MESSAGE);
+    drawPromptLike(TRAVERSE_MESSAGE);
   }
 
   /**
@@ -111,21 +111,21 @@ public class Output {
    * Print a hint to stop Advance auto.
    */
   public void emitStopHint() {
-    draw(PRESS_TO_STOP_MESSAGE);
+    drawPromptLike(PRESS_TO_STOP_MESSAGE);
   }
 
   /**
    * Ask for another try.
    */
   public void emitTryAgain() {
-    draw(TRY_AGAIN_MESSAGE);
+    drawPromptLike(TRY_AGAIN_MESSAGE);
   }
 
   /**
    * Ask if the simulation result should be saved after it has finished.
    */
   public void emitFinalSaveQuestion() {
-    draw(FINAL_SAVE_QUESTION_MESSAGE);
+    drawPromptLike(FINAL_SAVE_QUESTION_MESSAGE);
   }
 
   /**
@@ -141,7 +141,7 @@ public class Output {
       }
       builder.append("Press Enter to close this manual.");
 
-      String completeHelpPage = builder.toString();
+      cachedHelp = builder.toString();
     }
 
     draw(cachedHelp);
@@ -173,7 +173,7 @@ public class Output {
    * Print Command prompt.
    */
   public void emitPrompt() {
-    draw(PROMPT_TEXT);
+    drawPromptLike(PROMPT_TEXT);
   }
 
   /**
@@ -189,6 +189,15 @@ public class Output {
    */
   private void draw(String toDraw) {
     System.out.println(toDraw);
+  }
+
+  /**
+   * Internal prompt drawing implementation.
+   * @param toDraw Prompt like representation to draw.
+   */
+  private void drawPromptLike(String toDraw) {
+    System.out.print(toDraw);
+    System.out.flush();
   }
 
   /**
@@ -218,27 +227,33 @@ public class Output {
     IntStream.range(0, villages.size()).forEachOrdered(i -> {
       Village currentVillage = villages.get(i);
 
-      String villageNameStr = String.format("|%" + VILLAGE_SPACING + "s|", String.format("Village no. %d\n", i));
+      String villageNameStr = String.format("|%" + VILLAGE_SPACING + "s", String.format("Village no. %d", i));
       rowNames.append(villageNameStr);
 
       Position villagePosition = currentVillage.getPosition();
-      String villagePositionStr = String.format("|%" + VILLAGE_SPACING + "s|", String.format("X: %d, Y: %d\n", villagePosition.getX(), villagePosition.getY()));
+      String villagePositionStr = String.format("|%" + VILLAGE_SPACING + "s", String.format("X: %.2f, Y: %.2f", villagePosition.getX(), villagePosition.getY()));
       rowPositions.append(villagePositionStr);
 
       float villagePriceIndex = currentVillage.getPriceIndex();
-      String villagePriceIndexStr = String.format("|%" + VILLAGE_SPACING + "s|", String.format("Price Index: %f\n", villagePriceIndex));
+      String villagePriceIndexStr = String.format("|%" + VILLAGE_SPACING + "s", String.format("Price Index: %.2f", villagePriceIndex));
       rowPriceIndex.append(villagePriceIndexStr);
 
       float villageMoney = currentVillage.getMoney();
-      String villageMoneyStr = String.format("|%" + VILLAGE_SPACING + "s|", String.format("Vault: %f\n", villageMoney));
+      String villageMoneyStr = String.format("|%" + VILLAGE_SPACING + "s", String.format("Vault: %.2f", villageMoney));
       rowVillageMoney.append(villageMoneyStr);
     });
+    rowNames.append("|\n");
+    rowPositions.append("|\n");
+    rowVillageMoney.append("|\n");
+    rowPriceIndex.append("|\n");
 
     int oneLineLength = rowNames.length();
-    String spacer = "-".repeat(oneLineLength) + '\n';
+    String spacer = "-".repeat(oneLineLength - 1) + '\n';
 
     StringBuilder villagesBuilder = new StringBuilder();
+    villagesBuilder.append(spacer);
     villagesBuilder.append(rowNames);
+    villagesBuilder.append(spacer);
     villagesBuilder.append(rowPositions);
     villagesBuilder.append(rowPriceIndex);
     villagesBuilder.append(rowVillageMoney);
@@ -262,16 +277,16 @@ public class Output {
     playerBuilder.append("Merchant's status:\n");
 
     Position position = state.getCurrentPosition();
-    String rowPosition = String.format("Position -> X: %d, Y: %d\n", position.getX(), position.getY());
+    String rowPosition = String.format("Position -> X: %.2f, Y: %.2f\n", position.getX(), position.getY());
     playerBuilder.append(rowPosition);
 
     Product foodStock = storage.getProduct(ProductType.FOOD);
     float dailyConsumption = strategy.getFoodConsumption();
-    String rowFood = String.format("Food -> Stock: %f, Consumption: %f\n", foodStock.getWeight(), dailyConsumption);
+    String rowFood = String.format("Food -> Stock: %.2f, Consumption: %.2f\n", foodStock.getWeight(), dailyConsumption);
     playerBuilder.append(rowFood);
 
     float money = storage.getMoney();
-    String rowMoney = String.format("Money -> %f\n", money);
+    String rowMoney = String.format("Money -> %.2f\n", money);
     playerBuilder.append(rowMoney);
 
     boolean lastEpochAttacked = state.isAttacked();
@@ -284,9 +299,9 @@ public class Output {
     Product gems = storage.getProduct(ProductType.GEM);
     Product spice = storage.getProduct(ProductType.SPICE);
     Product soap = storage.getProduct(ProductType.SOAP);
-    String gemRow = String.format("  .Gem -> %f\n", gems.getWeight());
-    String spiceRow = String.format("  .Spice -> %f\n", spice.getWeight());
-    String soapRow = String.format("  .Soap -> %f\n", soap.getWeight());
+    String gemRow = String.format("  .Gem   -> %.2f\n", gems.getWeight());
+    String spiceRow = String.format("  .Spice -> %.2f\n", spice.getWeight());
+    String soapRow = String.format("  .Soap  -> %.2f\n", soap.getWeight());
     stockBuilder.append(gemRow);
     stockBuilder.append(spiceRow);
     stockBuilder.append(soapRow);
