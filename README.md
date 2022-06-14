@@ -10,7 +10,8 @@ Tested on:
 - Gradle: 7.2
 
 ```shell
-$ ./gradlew run --args "<RNG> <StealMulti>"
+$ ./gradlew build
+$ java -classpath ./build/classes/java/main app.Main <RNG> <StealMulti>
 ```
 
 ## Features

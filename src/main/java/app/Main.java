@@ -34,4 +34,4 @@ public class Main {
 
 //todo: (3) reduce singletons to just Epochs class.
 //todo: (2) impl JSON, save state
-//todo: (1) adjust ratios
+//todo: (1) adjust ratios, fix thugs, fix clear screen
