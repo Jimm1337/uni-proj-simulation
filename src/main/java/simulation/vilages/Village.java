@@ -23,6 +23,7 @@ public class Village extends StockBase implements TransactionChecker {
 
   /**
    * Initialize with random stock and prices. Set Position.
+   * @param epochs Epochs.
    * @param position Position of the village.
    */
   public Village(Position position, Epochs epochs) {

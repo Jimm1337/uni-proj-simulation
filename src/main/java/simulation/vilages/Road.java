@@ -20,6 +20,7 @@ public class Road {
    * Default generated constructor.
    * @param start Starting position.
    * @param finish Final position.
+   * @param epochs Epochs.
    */
   public Road(Position start, Position finish, Epochs epochs) {
     this.epochs = epochs;

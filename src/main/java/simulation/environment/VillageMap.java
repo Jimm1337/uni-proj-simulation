@@ -19,7 +19,8 @@ public class VillageMap {
   private final Epochs epochs;
 
   /**
-   * Singleton constructor, initializes map, grabs difficulty instance
+   * Singleton constructor, initializes map, grabs difficulty instance.
+   * @param epochs Epochs.
    */
   public VillageMap(Epochs epochs) {
     this.epochs = epochs;

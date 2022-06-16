@@ -16,6 +16,7 @@ public class BalancedStrategy implements StrategyType {
 
   /**
    * Balanced Strategy constructor. Grabs Difficulty class instance.
+   * @param epochs Epochs.
    */
   public BalancedStrategy(Epochs epochs) {
     this.difficulty = epochs.getDifficulty();

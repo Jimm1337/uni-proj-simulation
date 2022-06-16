@@ -41,6 +41,7 @@ public class Output {
 
   /**
    * Grabs epochs, prepares cachedHelp for lazy evaluation.
+   * @param epochs Epochs.
    */
   public Output(Epochs epochs) {
     this.epochs     = epochs;

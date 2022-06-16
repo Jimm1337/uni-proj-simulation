@@ -32,6 +32,7 @@ public class Epochs {
 
   /**
    * Constructor, construct using setters in controller.
+   * @param difficulty Difficulty.
    */
   public Epochs(Difficulty difficulty) {
     this.difficulty = difficulty;
@@ -208,18 +209,34 @@ public class Epochs {
     return villageMap;
   }
 
+  /**
+   * Buying algorithm getter.
+   * @return Used buying algorithm.
+   */
   public BuyingAlgorithm getBuyingAlgorithm() {
     return buyingAlgorithm;
   }
 
+  /**
+   * Selling algorithm getter.
+   * @return Used selling algorithm
+   */
   public SellingAlgorithm getSellingAlgorithm() {
     return sellingAlgorithm;
   }
 
+  /**
+   * Traverse algorithm getter.
+   * @return Used traverse algorithm.
+   */
   public TraverseBase getTraverseAlgorithm() {
     return traverseAlgorithm;
   }
 
+  /**
+   * Difficulty getter.
+   * @return Parsed difficulty.
+   */
   public Difficulty getDifficulty() {
     return difficulty;
   }

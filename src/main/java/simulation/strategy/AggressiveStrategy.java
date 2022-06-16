@@ -17,6 +17,7 @@ public class AggressiveStrategy implements StrategyType {
 
   /**
    * Aggressive strategy constructor. Grabs Difficulty class instance.
+   * @param epochs Epochs.
    */
   public AggressiveStrategy(Epochs epochs) {
     this.difficulty = epochs.getDifficulty();

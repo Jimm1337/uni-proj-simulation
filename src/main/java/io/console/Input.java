@@ -19,6 +19,7 @@ public class Input {
 
   /**
    * Constructor, grabs kb handle, inits key status map
+   * @param epochs Epochs.
    */
   public Input(Epochs epochs) {
     console = System.console();

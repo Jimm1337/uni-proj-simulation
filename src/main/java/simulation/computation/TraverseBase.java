@@ -8,10 +8,14 @@ import simulation.vilages.Village;
  * Base for traversal strategies.
  */
 public abstract class TraverseBase {
+  /**
+   * Village map to use in the algorithms.
+   */
   protected final VillageMap map;
 
   /**
    * Constructor, grabs map.
+   * @param epochs Epochs.
    */
   public TraverseBase(Epochs epochs) {
     map = epochs.getVillageMap();

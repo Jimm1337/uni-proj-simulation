@@ -18,6 +18,7 @@ public class Thugs {
   /**
    * Constructor, calculates the percentage of resource to be stolen in an
    * event.
+   * @param epochs Epochs.
    */
   public Thugs(Epochs epochs) {
     this.epochs = epochs;

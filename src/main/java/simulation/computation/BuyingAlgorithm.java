@@ -10,6 +10,9 @@ import simulation.player.PlayerStorage;
 import simulation.strategy.StrategyType;
 import simulation.vilages.Village;
 
+/**
+ * Algorithm used to buy goods at a village.
+ */
 public class BuyingAlgorithm {
   private static final float FOOD_THRESHOLD          = 30.0f;
   private static final float MAX_PERCENT_MONEY_SPENT = 0.8f;
@@ -19,12 +22,21 @@ public class BuyingAlgorithm {
   private final StrategyType  strategyType;
   private final Epochs epochs;
 
+  /**
+   * Grabs strategy and player storage ref.
+   * @param epochs Epochs.
+   */
   public BuyingAlgorithm(Epochs epochs) {
     this.epochs = epochs;
     this.strategyType = epochs.getStrategyType();
     playerStorage     = epochs.getPlayerStorage();
   }
 
+  /**
+   * Generates a List of Transaction based on the algorithm.
+   * @param village Village transaction partner.
+   * @return List of Transactions to be made.
+   */
   public List<Transaction> generateTransactions(Village village) {
     List<Transaction> ret = new ArrayList<>(ProductType.values().length);
 
@@ -43,6 +55,11 @@ public class BuyingAlgorithm {
     return ret;
   }
 
+  /**
+   * Internal, grabs prices form village in ascending order.
+   * @param village village partner.
+   * @return Set of Price-Type pairs.
+   */
   private Set<Map.Entry<Float, ProductType>> getAscendingPricesSet(
     Village village) {
     Map<Float, ProductType> prices = new TreeMap<>();
@@ -53,6 +70,11 @@ public class BuyingAlgorithm {
     return prices.entrySet();
   }
 
+  /**
+   * Internal, generates of products to buy.
+   * @param village Village partner.
+   * @return Map of types and percentages.
+   */
   private Map<ProductType, Float> generatePercentages(Village village) {
     Map<ProductType, Float> ret = new HashMap<>();
 
@@ -77,6 +99,11 @@ public class BuyingAlgorithm {
     return ret;
   }
 
+  /**
+   * Internal, generates exact weights of products to buy.
+   * @param village Village partner.
+   * @return Map of ProductTypes mapped to weights.
+   */
   private Map<ProductType, Float> generateWeights(Village village) {
     Map<ProductType, Float> ret = new HashMap<>();
 

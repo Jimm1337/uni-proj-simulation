@@ -17,6 +17,7 @@ public class PlayerStorage extends StockBase implements TransactionChecker {
   /**
    * Initializes the Map to HashMap with All the product
    * types.
+   * @param epochs Epochs.
    */
   public PlayerStorage(Epochs epochs) {
     this.epochs = epochs;

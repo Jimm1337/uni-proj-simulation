@@ -5,9 +5,9 @@ Simple merchant simulation for uni.
 
 ## Build and Run
 Tested on:
-- OS: Arch 5.17.9-zen1-1-zen
-- JDK: semeru-17
-- Gradle: 7.2
+- OS: Arch 5.18.3-zen1-1-zen
+- JDK: openjdk-18
+- Gradle: 7.4.2
 
 ```shell
 $ ./gradlew build

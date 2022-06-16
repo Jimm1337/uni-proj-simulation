@@ -13,11 +13,12 @@ public class Controller {
 
   private Input                    input;
   private Output                   output;
-  private Epochs                   epochs;
+  private final Epochs                   epochs;
   private Command                  nextCommand;
 
   /**
    * Constructor, creates io, grabs Epochs (main simulation class) instance.
+   * @param difficulty Difficulty.
    */
   public Controller(Difficulty difficulty) {
     this.epochs       = new Epochs(difficulty);

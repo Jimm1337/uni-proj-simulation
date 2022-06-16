@@ -20,6 +20,7 @@ public class Transaction {
    * @param product The product representation.
    * @param transactionType The type of the transaction.
    * @param strategyType The selected strategy type.
+   * @param epochs Epochs.
    */
   public Transaction(
     float           price,
@@ -68,6 +69,7 @@ public class Transaction {
 
   /**
    * Executes the transaction.
+   * @param village Village partner.
    * @throws IllegalArgumentException When the transaction cannot be fulfilled.
    */
   public void execute(Village village) {
