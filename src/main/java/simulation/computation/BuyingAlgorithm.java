@@ -15,13 +15,14 @@ public class BuyingAlgorithm {
   private static final float MAX_PERCENT_MONEY_SPENT = 0.8f;
   private static final float[] TRANSACTION_RATIOS = { 0.4f, 0.3f, 0.2f, 0.1f };
 
-  PlayerStorage playerStorage;
-  StrategyType  strategyType;
+  private final PlayerStorage playerStorage;
+  private final StrategyType  strategyType;
+  private final Epochs epochs;
 
-  public BuyingAlgorithm() {
-    Epochs epochs     = Epochs.getInstance();
+  public BuyingAlgorithm(Epochs epochs) {
+    this.epochs = epochs;
     this.strategyType = epochs.getStrategyType();
-    playerStorage     = PlayerStorage.getInstance();
+    playerStorage     = epochs.getPlayerStorage();
   }
 
   public List<Transaction> generateTransactions(Village village) {
@@ -35,7 +36,7 @@ public class BuyingAlgorithm {
       float   price        = village.getPrice(type);
 
       Transaction toAdd =
-        new Transaction(price, productToBuy, TransactionType.BUY, strategyType);
+        new Transaction(price, productToBuy, TransactionType.BUY, strategyType, epochs);
       ret.add(toAdd);
     }
 

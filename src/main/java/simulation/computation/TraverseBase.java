@@ -1,5 +1,6 @@
 package simulation.computation;
 
+import simulation.environment.Epochs;
 import simulation.environment.VillageMap;
 import simulation.vilages.Village;
 
@@ -7,13 +8,13 @@ import simulation.vilages.Village;
  * Base for traversal strategies.
  */
 public abstract class TraverseBase {
-  VillageMap map;
+  protected final VillageMap map;
 
   /**
    * Constructor, grabs map.
    */
-  public TraverseBase() {
-    map = VillageMap.getInstance();
+  public TraverseBase(Epochs epochs) {
+    map = epochs.getVillageMap();
   }
 
   /**

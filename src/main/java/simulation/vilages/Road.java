@@ -1,6 +1,7 @@
 package simulation.vilages;
 
 import io.arguments.Difficulty;
+import simulation.environment.Epochs;
 import simulation.environment.Position;
 import simulation.player.PlayerState;
 
@@ -12,17 +13,19 @@ public class Road {
 
   private final Position start;
   private final Position finish;
-  private Difficulty     difficulty;
+  private final Difficulty     difficulty;
+  private final Epochs epochs;
 
   /**
    * Default generated constructor.
    * @param start Starting position.
    * @param finish Final position.
    */
-  public Road(Position start, Position finish) {
+  public Road(Position start, Position finish, Epochs epochs) {
+    this.epochs = epochs;
     this.start      = start;
     this.finish     = finish;
-    this.difficulty = Difficulty.getInstance();
+    this.difficulty = epochs.getDifficulty();
   }
 
   /**

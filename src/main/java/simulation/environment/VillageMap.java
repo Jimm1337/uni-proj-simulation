@@ -14,27 +14,19 @@ public class VillageMap {
   private static final int   COUNT_OF_VILLAGES = 5;
   private static final float POS_RAND_MULTI    = 20.0f;
 
-  ArrayList<Village> villages;
-  Difficulty         difficulty;
-  static VillageMap  instance;
+  private ArrayList<Village> villages;
+  private final Difficulty         difficulty;
+  private final Epochs epochs;
 
   /**
    * Singleton constructor, initializes map, grabs difficulty instance
    */
-  private VillageMap() {
-    difficulty = Difficulty.getInstance();
+  public VillageMap(Epochs epochs) {
+    this.epochs = epochs;
+
+    difficulty = epochs.getDifficulty();
 
     regenerateMap();
-  }
-
-  /**
-   * Instance grabber.
-   * @return The only instance of this class.
-   */
-  static public VillageMap getInstance() {
-    if (instance == null) { instance = new VillageMap(); }
-
-    return instance;
   }
 
   /**
@@ -46,7 +38,7 @@ public class VillageMap {
       float    randomX        = difficulty.getRandomFloat() * POS_RAND_MULTI;
       float    randomY        = difficulty.getRandomFloat() * POS_RAND_MULTI;
       Position randomPosition = new Position(randomX, randomY);
-      Village  newVillage     = new Village(randomPosition);
+      Village  newVillage     = new Village(randomPosition, epochs);
       villages.add(i, newVillage);
     });
   }
@@ -76,17 +68,17 @@ public class VillageMap {
    * @return A village closest to the player.
    */
   public Village getClosestToPlayer() {
-    final PlayerState playerState    = PlayerState.getInstance();
+    final PlayerState playerState    = epochs.getPlayerState();
     final Position    playerPosition = playerState.getCurrentPosition();
 
     Village  currentBest         = villages.get(0);
     Position currentBestPosition = currentBest.getPosition();
-    Road     currentBestRoad = new Road(playerPosition, currentBestPosition);
+    Road     currentBestRoad = new Road(playerPosition, currentBestPosition, epochs);
     float    currentBestDistance = currentBestRoad.calculateDistance();
 
     for (Village village : villages) {
       Position thisVillagePosition = village.getPosition();
-      Road     thisVillageRoad = new Road(playerPosition, thisVillagePosition);
+      Road     thisVillageRoad = new Road(playerPosition, thisVillagePosition, epochs);
       float    thisVillageDistance = thisVillageRoad.calculateDistance();
 
       if (thisVillageDistance < currentBestDistance) {

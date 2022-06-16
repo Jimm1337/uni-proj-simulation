@@ -42,8 +42,8 @@ public class Output {
   /**
    * Grabs epochs, prepares cachedHelp for lazy evaluation.
    */
-  public Output() {
-    this.epochs     = Epochs.getInstance();
+  public Output(Epochs epochs) {
+    this.epochs     = epochs;
     this.cachedHelp = null;
   }
 

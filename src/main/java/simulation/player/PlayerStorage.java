@@ -11,27 +11,21 @@ public class PlayerStorage extends StockBase implements TransactionChecker {
   private static final float   INITIAL_MONEY = 100.0f;
   private static final Product INITIAL_FOOD =
     new Product(ProductType.FOOD, 300.0f);
-  private static PlayerStorage instance;
+
+  Epochs epochs;
 
   /**
-   * Singleton constructor. Initializes the Map to HashMap with All the product
+   * Initializes the Map to HashMap with All the product
    * types.
    */
-  private PlayerStorage() {
+  public PlayerStorage(Epochs epochs) {
+    this.epochs = epochs;
+
     for (ProductType type : ProductType.values()) {
       addProduct(new Product(type, 0.0f));
     }
     addMoney(INITIAL_MONEY);
     addProduct(INITIAL_FOOD);
-  }
-
-  /**
-   * Gets the singleton only instance. Initializes if necessary.
-   * @return The instance.
-   */
-  public static PlayerStorage getInstance() {
-    if (instance == null) { instance = new PlayerStorage(); }
-    return instance;
   }
 
   /**
@@ -66,7 +60,6 @@ public class PlayerStorage extends StockBase implements TransactionChecker {
    * Consumes daily food or dies if not enough food left.
    */
   public void consumeDailyFood() {
-    Epochs epochs = Epochs.getInstance();
     StrategyType strategy = epochs.getStrategyType();
 
     float consumption = strategy.getFoodConsumption();
@@ -75,7 +68,7 @@ public class PlayerStorage extends StockBase implements TransactionChecker {
     float foodStockWeight = foodStock.getWeight();
 
     if (foodStockWeight < consumption) {
-      PlayerState playerState = PlayerState.getInstance();
+      PlayerState playerState = epochs.getPlayerState();
       playerState.die();
       return;
     }

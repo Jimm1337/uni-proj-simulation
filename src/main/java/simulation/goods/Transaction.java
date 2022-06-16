@@ -1,6 +1,6 @@
 package simulation.goods;
 
-import simulation.player.PlayerStorage;
+import simulation.environment.Epochs;
 import simulation.strategy.StrategyType;
 import simulation.vilages.Village;
 
@@ -12,6 +12,7 @@ public class Transaction {
   private final Product         product;
   private final TransactionType transactionType;
   private final StrategyType    strategyType;
+  private final Epochs epochs;
 
   /**
    * Initialize the transaction with details.
@@ -24,7 +25,9 @@ public class Transaction {
     float           price,
     Product         product,
     TransactionType transactionType,
-    StrategyType    strategyType) {
+    StrategyType    strategyType,
+    Epochs epochs) {
+    this.epochs = epochs;
     this.price           = price;
     this.product         = product;
     this.transactionType = transactionType;
@@ -68,7 +71,7 @@ public class Transaction {
    * @throws IllegalArgumentException When the transaction cannot be fulfilled.
    */
   public void execute(Village village) {
-    StockBase   playerStorage   = PlayerStorage.getInstance();
+    StockBase   playerStorage   = epochs.getPlayerStorage();
     final float priceMultiplier = strategyType.getPriceMultiplier();
     final float value           = getTotal() * priceMultiplier;
 

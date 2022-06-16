@@ -1,6 +1,7 @@
 package simulation.vilages;
 
 import io.arguments.Difficulty;
+import simulation.environment.Epochs;
 import simulation.goods.Product;
 import simulation.goods.ProductType;
 import simulation.player.PlayerStorage;
@@ -12,13 +13,15 @@ public class Thugs {
   private static final float BASE_STEAL_SEVERITY = 0.25f;
 
   private final float stealPercent;
+  private final Epochs epochs;
 
   /**
    * Constructor, calculates the percentage of resource to be stolen in an
    * event.
    */
-  public Thugs() {
-    Difficulty  difficulty = Difficulty.getInstance();
+  public Thugs(Epochs epochs) {
+    this.epochs = epochs;
+    Difficulty  difficulty = epochs.getDifficulty();
     final float stealMulti = difficulty.getStealMultiplier();
     stealPercent           = BASE_STEAL_SEVERITY * stealMulti;
   }
@@ -28,7 +31,7 @@ public class Thugs {
    * resource calculated in the constructor from current stock.
    */
   public void steal() {
-    PlayerStorage playerStorage = PlayerStorage.getInstance();
+    PlayerStorage playerStorage = epochs.getPlayerStorage();
 
     float currentMoney = playerStorage.getMoney();
     float moneyToSteal = currentMoney * stealPercent;

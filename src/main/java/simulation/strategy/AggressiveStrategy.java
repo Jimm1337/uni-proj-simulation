@@ -1,6 +1,7 @@
 package simulation.strategy;
 
 import io.arguments.Difficulty;
+import simulation.environment.Epochs;
 
 /**
  * The most random type of simulation.
@@ -17,8 +18,8 @@ public class AggressiveStrategy implements StrategyType {
   /**
    * Aggressive strategy constructor. Grabs Difficulty class instance.
    */
-  public AggressiveStrategy() {
-    this.difficulty = Difficulty.getInstance();
+  public AggressiveStrategy(Epochs epochs) {
+    this.difficulty = epochs.getDifficulty();
   }
 
   /**

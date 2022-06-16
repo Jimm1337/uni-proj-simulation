@@ -8,41 +8,17 @@ import java.util.Random;
 public class Difficulty {
   private final int   rng;
   private final float stealMultiplier;
-  static Difficulty   instance;
 
   /**
-   * Private constructor, construct using createInstance()
-   * @param rng rng from createInstance
-   * @param stealMultiplier stealMultiplier from createInstance()
+   * Constructor from parser.
+   * @param rng rng param (1st param - reasonable range -> From 2 To 6
+   *    *   inclusive).
+   *    * @param stealMultiplier sm param (2nd param - reasonable range -> From 0.5
+   *    *   To 2.0 inclusive).
    */
-  private Difficulty(int rng, float stealMultiplier) {
+  Difficulty(int rng, float stealMultiplier) {
     this.rng             = rng;
     this.stealMultiplier = stealMultiplier;
-  }
-
-  /**
-   * Generates Difficulty from arguments. Only for use in parser class.
-   * @param rng rng param (1st param - reasonable range -> From 2 To 6
-   *   inclusive).
-   * @param stealMultiplier sm param (2nd param - reasonable range -> From 0.5
-   *   To 2.0 inclusive).
-   */
-  static void createInstance(int rng, float stealMultiplier) {
-    if (instance == null) { instance = new Difficulty(rng, stealMultiplier); }
-  }
-
-  /**
-   * Gets the only instance of Difficulty produced by the parser. If the parser
-   * failed to produce valid Difficulty object throws.
-   * @throws RuntimeException When the parser didn't produce a valid instance at
-   *   the start of the program.
-   * @return The only Difficulty instance
-   */
-  public static Difficulty getInstance() {
-    if (instance == null) {
-      throw new RuntimeException("Failed to parse args.");
-    }
-    return instance;
   }
 
   /**

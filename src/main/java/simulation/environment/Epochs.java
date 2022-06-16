@@ -1,7 +1,7 @@
 package simulation.environment;
 
-import java.lang.module.InvalidModuleDescriptorException;
 import java.util.stream.IntStream;
+import io.arguments.Difficulty;
 import simulation.computation.BuyingAlgorithm;
 import simulation.computation.Dice;
 import simulation.computation.SellingAlgorithm;
@@ -28,17 +28,17 @@ public class Epochs {
   private final VillageMap    villageMap;
   private boolean             finishTheSimulation;
   private Village             currentVillage;
-
-  static private Epochs instance;
+  private final Difficulty difficulty;
 
   /**
    * Constructor, construct using setters in controller.
    */
-  private Epochs() {
-    this.playerStorage       = PlayerStorage.getInstance();
-    this.playerState         = PlayerState.getInstance();
+  public Epochs(Difficulty difficulty) {
+    this.difficulty = difficulty;
+    this.playerStorage       = new PlayerStorage(this);
+    this.playerState         = new PlayerState();
     this.dice                = new Dice();
-    this.villageMap          = VillageMap.getInstance();
+    this.villageMap          = new VillageMap(this);
     this.finishTheSimulation = false;
     currentVillage           = null;
   }
@@ -50,8 +50,8 @@ public class Epochs {
    */
   public void setStrategyType(StrategyType strategyType) {
     this.strategyType     = strategyType;
-    this.buyingAlgorithm  = new BuyingAlgorithm();
-    this.sellingAlgorithm = new SellingAlgorithm();
+    this.buyingAlgorithm  = new BuyingAlgorithm(this);
+    this.sellingAlgorithm = new SellingAlgorithm(this);
   }
 
   /**
@@ -60,16 +60,6 @@ public class Epochs {
    */
   public void setTraverseAlgorithm(TraverseBase traverseAlgorithm) {
     this.traverseAlgorithm = traverseAlgorithm;
-  }
-
-  /**
-   * Instance grabber.
-   * @return The only instance.
-   */
-  public static Epochs getInstance() {
-    if (instance == null) { instance = new Epochs(); }
-
-    return instance;
   }
 
   /**
@@ -103,7 +93,7 @@ public class Epochs {
     Village  nextVillage         = traverseAlgorithm.getNext();
     Position nextVillagePosition = nextVillage.getPosition();
     Position playerPosition      = playerState.getCurrentPosition();
-    Road     road = new Road(playerPosition, nextVillagePosition);
+    Road     road = new Road(playerPosition, nextVillagePosition, this);
 
     float   risk              = road.calculateRisk();
     float   distance          = road.calculateDistance();
@@ -127,7 +117,7 @@ public class Epochs {
 
     playerState.setAttacked(false);
     if (toBeAttacked) {
-      Thugs thugs = new Thugs();
+      Thugs thugs = new Thugs(this);
       thugs.steal();
       playerState.setAttacked(true);
     }
@@ -216,5 +206,21 @@ public class Epochs {
    */
   public VillageMap getVillageMap() {
     return villageMap;
+  }
+
+  public BuyingAlgorithm getBuyingAlgorithm() {
+    return buyingAlgorithm;
+  }
+
+  public SellingAlgorithm getSellingAlgorithm() {
+    return sellingAlgorithm;
+  }
+
+  public TraverseBase getTraverseAlgorithm() {
+    return traverseAlgorithm;
+  }
+
+  public Difficulty getDifficulty() {
+    return difficulty;
   }
 }

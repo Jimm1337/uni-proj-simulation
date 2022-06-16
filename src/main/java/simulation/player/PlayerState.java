@@ -7,27 +7,17 @@ import simulation.environment.Position;
  * epoch.
  */
 public class PlayerState {
-  private static PlayerState instance;
   private boolean            isAttacked;
   private Position           currentPosition;
   private boolean            isDead;
 
   /**
-   * Singleton constructor.
+   * Constructor.
    */
-  private PlayerState() {
+  public PlayerState() {
     isAttacked      = false;
     isDead          = false;
     currentPosition = new Position(0, 0);
-  }
-
-  /**
-   * Singleton instance getter. Creates instance if it doesn't yet exist.
-   * @return The only instance of PlayerState
-   */
-  public static PlayerState getInstance() {
-    if (instance == null) { instance = new PlayerState(); }
-    return instance;
   }
 
   /**

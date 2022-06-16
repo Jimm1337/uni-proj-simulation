@@ -1,15 +1,8 @@
 package io.console;
 
-import java.awt.event.KeyEvent;
-import java.time.Duration;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import io.arguments.Difficulty;
 import simulation.computation.TraverseBase;
-import simulation.computation.TraverseDistance;
-import simulation.computation.TraversePrices;
 import simulation.environment.Epochs;
-import simulation.strategy.AggressiveStrategy;
 import simulation.strategy.StrategyType;
 
 /**
@@ -18,21 +11,19 @@ import simulation.strategy.StrategyType;
 public class Controller {
   private static final int AUTO_INCREMENT_PAUSE_SECONDS = 3;
 
-  Input                    input;
-  Output                   output;
-  Epochs                   epochs;
-  Command                  nextCommand;
-  ScheduledExecutorService autoExecutor;
+  private Input                    input;
+  private Output                   output;
+  private Epochs                   epochs;
+  private Command                  nextCommand;
 
   /**
    * Constructor, creates io, grabs Epochs (main simulation class) instance.
    */
-  public Controller() {
-    this.input        = new Input();
-    this.output       = new Output();
-    this.epochs       = Epochs.getInstance();
+  public Controller(Difficulty difficulty) {
+    this.epochs       = new Epochs(difficulty);
+    this.input        = new Input(epochs);
+    this.output       = new Output(epochs);
     this.nextCommand  = new Command(CommandType.ENTRY);
-    this.autoExecutor = null;
   }
 
   /**
@@ -137,6 +128,7 @@ public class Controller {
       nextCommand = new Command(CommandType.RESUME, new Param<>(filename));
       return;
     }
+
     nextCommand = new Command(CommandType.SET_STRATEGY);
 
     //debug entry
@@ -149,6 +141,8 @@ public class Controller {
     System.out.println("Unimplemented.");
     nextCommand = new Command(CommandType.SET_STRATEGY);
     //todo: load json
+    output = new Output(epochs);
+    input = new Input(epochs);
   }
 
   private void handleSetStrategy() {

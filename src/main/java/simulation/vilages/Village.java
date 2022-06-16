@@ -3,6 +3,8 @@ package simulation.vilages;
 import io.arguments.Difficulty;
 import java.util.HashMap;
 import java.util.Map;
+
+import simulation.environment.Epochs;
 import simulation.environment.Position;
 import simulation.goods.*;
 
@@ -17,12 +19,14 @@ public class Village extends StockBase implements TransactionChecker {
   private final Position position;
   private final Map<ProductType, Float> prices;
   private final float                   priceIndex;
+  private final Epochs epochs;
 
   /**
    * Initialize with random stock and prices. Set Position.
    * @param position Position of the village.
    */
-  public Village(Position position) {
+  public Village(Position position, Epochs epochs) {
+    this.epochs = epochs;
     this.prices   = new HashMap<>();
     this.position = position;
     randomizeStock();
@@ -34,7 +38,7 @@ public class Village extends StockBase implements TransactionChecker {
    * Randomly change stock.
    */
   public void randomizeStock() {
-    Difficulty randomMachine = Difficulty.getInstance();
+    Difficulty randomMachine = epochs.getDifficulty();
     clearStock();
     clearMoney();
 
@@ -54,7 +58,7 @@ public class Village extends StockBase implements TransactionChecker {
    * Randomly change prices.
    */
   public void randomizePrices() {
-    Difficulty randomMachine = Difficulty.getInstance();
+    Difficulty randomMachine = epochs.getDifficulty();
     clearPrices();
 
     for (ProductType type : ProductType.values()) {

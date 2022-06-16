@@ -6,7 +6,7 @@ import java.util.Random;
  * Dice class for rolling random events.
  */
 public class Dice {
-  Random generator;
+  private final Random generator;
 
   /**
    * Constructor, creates a new Random obj for internal use.

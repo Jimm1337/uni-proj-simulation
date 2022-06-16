@@ -4,6 +4,8 @@ package io.arguments;
  * Used to parse console arguments from the user.
  */
 public class Parser {
+  private Difficulty difficulty;
+
   /**
    * Parsing method.
    * @param Args main() function arguments.
@@ -28,6 +30,14 @@ public class Parser {
         "Steal multiplier out of range - allowed range <0.5, 2.0>.");
     }
 
-    Difficulty.createInstance(rng, stealMulti);
+    difficulty = new Difficulty(rng, stealMulti);
+  }
+
+  /**
+   * Difficulty getter will throw NULLPTR if not parse was not called first.
+   * @return Parsed args as Difficulty object.
+   */
+  public Difficulty getDifficulty() {
+    return difficulty;
   }
 }

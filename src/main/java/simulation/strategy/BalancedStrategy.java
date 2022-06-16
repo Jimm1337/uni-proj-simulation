@@ -1,6 +1,7 @@
 package simulation.strategy;
 
 import io.arguments.Difficulty;
+import simulation.environment.Epochs;
 
 /**
  * The midpoint of simulation randomness.
@@ -16,8 +17,8 @@ public class BalancedStrategy implements StrategyType {
   /**
    * Balanced Strategy constructor. Grabs Difficulty class instance.
    */
-  public BalancedStrategy() {
-    this.difficulty = Difficulty.getInstance();
+  public BalancedStrategy(Epochs epochs) {
+    this.difficulty = epochs.getDifficulty();
   }
 
   /**

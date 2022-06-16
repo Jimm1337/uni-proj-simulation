@@ -1,5 +1,6 @@
 package app;
 
+import io.arguments.Difficulty;
 import io.arguments.Parser;
 import io.console.Controller;
 
@@ -27,11 +28,10 @@ public class Main {
       return;
     }
 
-    Controller consoleController = new Controller();
+    Difficulty difficulty = argParser.getDifficulty();
+    Controller consoleController = new Controller(difficulty);
     consoleController.entry();
   }
 }
 
-// todo: (3) reduce singletons to just Epochs class.
 // todo: (2) impl JSON, save state
-// todo: (1) adjust ratios, fix thugs, fix clear screen

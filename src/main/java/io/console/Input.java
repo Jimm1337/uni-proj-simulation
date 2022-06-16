@@ -1,13 +1,10 @@
 package io.console;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.io.Console;
-import java.util.HashMap;
-import java.util.Map;
 import simulation.computation.TraverseBase;
 import simulation.computation.TraverseDistance;
 import simulation.computation.TraversePrices;
+import simulation.environment.Epochs;
 import simulation.strategy.AggressiveStrategy;
 import simulation.strategy.BalancedStrategy;
 import simulation.strategy.ConservativeStrategy;
@@ -17,13 +14,15 @@ import simulation.strategy.StrategyType;
  * Handles input, both direct and Enter-confirmed
  */
 public class Input {
-  Console console;
+  private final Console console;
+  private final Epochs epochs;
 
   /**
    * Constructor, grabs kb handle, inits key status map
    */
-  public Input() {
+  public Input(Epochs epochs) {
     console = System.console();
+    this.epochs = epochs;
   }
 
   /**
@@ -56,10 +55,10 @@ public class Input {
         return new ConservativeStrategy();
       }
       case "b" -> {
-        return new BalancedStrategy();
+        return new BalancedStrategy(epochs);
       }
       case "a" -> {
-        return new AggressiveStrategy();
+        return new AggressiveStrategy(epochs);
       }
       default -> {
         return null;
@@ -75,10 +74,10 @@ public class Input {
     String read = getStringEntered();
     switch (read) {
       case "p" -> {
-        return new TraversePrices();
+        return new TraversePrices(epochs);
       }
       case "d" -> {
-        return new TraverseDistance();
+        return new TraverseDistance(epochs);
       }
       default -> {
         return null;
