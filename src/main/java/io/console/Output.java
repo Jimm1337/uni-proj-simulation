@@ -1,5 +1,9 @@
 package io.console;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.IntStream;
 import simulation.environment.Epochs;
@@ -16,7 +20,6 @@ import simulation.vilages.Village;
  * Controls the console output.
  */
 public class Output {
-  private static final String CLEAR_SCREEN_ANSI = "\033[H\033[2J";
   private static final String PROMPT_TEXT = "Command (h<Enter> for help): ";
   private static final String INVALID_COMMAND_TEXT =
     "Invalid command-argument combination!";
@@ -333,5 +336,29 @@ public class Output {
     String playerRepresentation = playerBuilder.toString();
 
     return playerRepresentation;
+  }
+
+  /**
+   * Write to a file.
+   * @param contents Contents to be written.
+   * @param filename Filename to be written.
+   * @throws IOException Problems writing to a file.
+   */
+  public void writeFile(String contents, String filename) throws IOException {
+    Path path = Paths.get(filename);
+    byte[] strToBytes = contents.getBytes();
+    Files.write(path, strToBytes);
+  }
+
+  /**
+   * Read from a file.
+   * @param filename Filename to be read.
+   * @return Contents.
+   * @throws IOException Problems reading a file.
+   */
+  public String readFile(String filename) throws IOException {
+    Path path = Paths.get(filename);
+    byte[] read = Files.readAllBytes(path);
+    return new String(read);
   }
 }
