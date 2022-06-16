@@ -68,7 +68,8 @@ public abstract class StockBase {
       throw new IllegalArgumentException(
         "Weight After subtraction cannot be negative.");
     }
-    working.addWeight(weightToSubtract);
+    working.subtractWeight(weightToSubtract);
+    stock.put(typeToSubtract, working);
   }
 
   /**

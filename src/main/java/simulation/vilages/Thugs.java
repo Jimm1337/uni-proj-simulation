@@ -9,7 +9,7 @@ import simulation.player.PlayerStorage;
  * Thugs class, used to calculate and proceed with loses in a theft event.
  */
 public class Thugs {
-  private static final float BASE_STEAL_SEVERITY = 0.3f;
+  private static final float BASE_STEAL_SEVERITY = 0.45f;
 
   private final float stealPercent;
 
