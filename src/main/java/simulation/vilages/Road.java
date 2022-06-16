@@ -32,7 +32,7 @@ public class Road {
   public float calculateDistance() {
     return (float)Math.sqrt(
       Math.pow(start.getX() - finish.getX(), 2) +
-      Math.pow(start.getY() * finish.getY(), 2));
+      Math.pow(start.getY() - finish.getY(), 2));
   }
 
   /**

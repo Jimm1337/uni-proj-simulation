@@ -23,6 +23,6 @@ public class Dice {
   public boolean roll(float chance) {
     float rollResult = generator.nextFloat();
 
-    return rollResult >= chance;
+    return rollResult <= chance;
   }
 }

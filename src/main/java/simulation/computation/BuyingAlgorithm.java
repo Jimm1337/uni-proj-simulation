@@ -29,7 +29,7 @@ public class BuyingAlgorithm {
 
     Map<ProductType, Float> weights = generateWeights(village);
 
-    for (ProductType type : ProductType.values()) {
+    for (ProductType type : weights.keySet()) {
       float   weightToBuy  = weights.get(type);
       Product productToBuy = new Product(type, weightToBuy);
       float   price        = village.getPrice(type);

@@ -10,7 +10,7 @@ import simulation.strategy.StrategyType;
 public class PlayerStorage extends StockBase implements TransactionChecker {
   private static final float   INITIAL_MONEY = 100.0f;
   private static final Product INITIAL_FOOD =
-    new Product(ProductType.FOOD, 100.0f);
+    new Product(ProductType.FOOD, 300.0f);
   private static PlayerStorage instance;
 
   /**

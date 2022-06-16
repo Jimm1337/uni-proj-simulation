@@ -30,7 +30,8 @@ public class SellingAlgorithm {
 
     Map<ProductType, Float> weights = generateWeights(village);
 
-    for (ProductType type : ProductType.values()) {
+    for (var entry : weights.entrySet()) {
+      ProductType type = entry.getKey();
       float   weightToSell  = weights.get(type);
       Product productToSell = new Product(type, weightToSell);
       float   price         = village.getPrice(type);
@@ -47,6 +48,7 @@ public class SellingAlgorithm {
     Village village) {
     Map<Float, ProductType> prices = new TreeMap<>(Comparator.reverseOrder());
     for (ProductType type : ProductType.values()) {
+      if (type == ProductType.FOOD) continue;
       float price = village.getPrice(type);
       prices.put(price, type);
     }
