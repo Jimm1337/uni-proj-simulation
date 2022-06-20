@@ -1,6 +1,5 @@
 package io.console;
 
-import com.google.gson.JsonSyntaxException;
 import io.arguments.Difficulty;
 import io.json.Converter;
 import simulation.computation.TraverseBase;
@@ -9,14 +8,10 @@ import simulation.environment.Epochs;
 import simulation.strategy.AggressiveStrategy;
 import simulation.strategy.StrategyType;
 
-import java.io.IOException;
-
 /**
  * Controls the program flow, executes commands.
  */
 public class Controller {
-  private static final int AUTO_INCREMENT_PAUSE_SECONDS = 3;
-
   private Input                    input;
   private Output                   output;
   private Epochs                   epochs;
@@ -153,10 +148,11 @@ public class Controller {
 
   private void handleResume(String filename) {
     try {
-      epochs = converter.fromJSON(filename);
-    } catch (JsonSyntaxException err) {
-      System.out.println("Invalid file. Try again.");
-      nextCommand = new Command(CommandType.RESUME, new Param<>(filename));
+      String fileRead = output.readFile(filename);
+      epochs = converter.fromJSON(fileRead);
+    } catch (Throwable err) {
+      System.out.println(err.getMessage() + "Invalid file. Try again.");
+      nextCommand = new Command(CommandType.ENTRY);
       return;
     }
     output = new Output(epochs);
@@ -211,12 +207,12 @@ public class Controller {
   }
 
   private void handleSaveQuit(String filename) {
-    String epochsJson = converter.toJSON(epochs);
     try {
+      String epochsJson = converter.toJSON(epochs);
       output.writeFile(epochsJson, filename);
-    } catch (IOException e) {
+    } catch (Throwable err) {
       System.out.println("Problems saving to a file. Try again.");
-      nextCommand = new Command(CommandType.SAVE_QUIT, new Param<>(filename));
+      nextCommand = new Command(CommandType.GET_COMMAND);
       return;
     }
     nextCommand = new Command(CommandType.QUIT);
@@ -243,6 +239,7 @@ public class Controller {
     } while (save == null);
 
     if (save) {
+      output.emitFilenameQuestion();
       String filename = input.getStringEntered();
       nextCommand = new Command(CommandType.SAVE_QUIT, new Param<>(filename));
       return;

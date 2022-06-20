@@ -12,9 +12,9 @@ public class Difficulty {
   /**
    * Constructor from parser.
    * @param rng rng param (1st param - reasonable range -> From 2 To 6
-   *    *   inclusive).
-   *    * @param stealMultiplier sm param (2nd param - reasonable range -> From 0.5
-   *    *   To 2.0 inclusive).
+   * inclusive).
+   * @param stealMultiplier sm param (2nd param - reasonable range -> From 0.5
+   * To 2.0 inclusive).
    */
   Difficulty(int rng, float stealMultiplier) {
     this.rng             = rng;

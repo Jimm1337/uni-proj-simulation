@@ -12,8 +12,6 @@ enum CommandType {
   SET_TRAVERSAL,
   ADVANCE,
   ADVANCE_BY,
-  ADVANCE_AUTO,
-  ADVANCE_STOP,
   SAVE_QUIT,
   QUIT,
   HELP,
@@ -61,12 +59,6 @@ enum CommandType {
       }
       case "ab" -> {
         return ADVANCE_BY;
-      }
-      case "aa" -> {
-        return ADVANCE_AUTO;
-      }
-      case "s" -> {
-        return ADVANCE_STOP;
       }
       case "sq" -> {
         return SAVE_QUIT;

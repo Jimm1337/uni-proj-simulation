@@ -19,7 +19,7 @@ public class Main {
       argParser.parse(Args);
     } catch (IllegalArgumentException err) {
       System.out.println("""
-          Usage: ./gradlew run --args "<RNG> <StealMulti>"
+          Usage: ./uni-proj-simulation <RNG> <StealMulti>
           
           int RNG - the value of randomness in the simulation. (range <2, 6>)
           float StealMulti - The multiplier for amount lost during random theft event. (range <0.5, 2.0>)
@@ -34,4 +34,5 @@ public class Main {
   }
 }
 
-// todo: (2) impl JSON, save state
+// todo: finishing touches.
+// todo: docs.
