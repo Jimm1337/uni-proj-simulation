@@ -1,20 +1,22 @@
 package io.console;
 
 import io.arguments.Difficulty;
+import io.json.Converter;
 import simulation.computation.TraverseBase;
+import simulation.computation.TraverseDistance;
 import simulation.environment.Epochs;
+import simulation.strategy.AggressiveStrategy;
 import simulation.strategy.StrategyType;
 
 /**
  * Controls the program flow, executes commands.
  */
 public class Controller {
-  private static final int AUTO_INCREMENT_PAUSE_SECONDS = 3;
-
   private Input                    input;
   private Output                   output;
-  private final Epochs                   epochs;
+  private Epochs                   epochs;
   private Command                  nextCommand;
+  private Converter converter;
 
   /**
    * Constructor, creates io, grabs Epochs (main simulation class) instance.
@@ -25,6 +27,7 @@ public class Controller {
     this.input        = new Input(epochs);
     this.output       = new Output(epochs);
     this.nextCommand  = new Command(CommandType.ENTRY);
+    this.converter = new Converter();
   }
 
   /**
@@ -121,8 +124,13 @@ public class Controller {
   private void handleEntry() {
     output.clearScreen();
     output.emitHeader();
-    output.emitLoadQuestion();
-    boolean load = input.readYesNo();
+
+    Boolean load;
+    do {
+      output.emitLoadQuestion();
+      load = input.readYesNo();
+    } while (load == null);
+
     if (load) {
       output.emitFilenameQuestion();
       String filename = input.getStringEntered();
@@ -133,21 +141,27 @@ public class Controller {
     nextCommand = new Command(CommandType.SET_STRATEGY);
 
     //debug entry
-//    epochs.setStrategyType(new AggressiveStrategy());
-//    epochs.setTraverseAlgorithm(new TraverseDistance());
+//    epochs.setStrategyType(new AggressiveStrategy(epochs));
+//    epochs.setTraverseAlgorithm(new TraverseDistance(epochs));
 //    while (true) epochs.advance();
   }
 
   private void handleResume(String filename) {
-    System.out.println("Unimplemented.");
-    nextCommand = new Command(CommandType.SET_STRATEGY);
-    //todo: load json
+    try {
+      String fileRead = output.readFile(filename);
+      epochs = converter.fromJSON(fileRead);
+    } catch (Throwable err) {
+      System.out.println(err.getMessage() + "Invalid file. Try again.");
+      nextCommand = new Command(CommandType.ENTRY);
+      return;
+    }
     output = new Output(epochs);
     input = new Input(epochs);
+    nextCommand = new Command(CommandType.GET_COMMAND);
   }
 
   private void handleSetStrategy() {
-    StrategyType selectedStrategy = null;
+    StrategyType selectedStrategy;
 
     do {
       output.emitStrategyQuestion();
@@ -160,7 +174,7 @@ public class Controller {
   }
 
   private void handleSetTraversal() {
-    TraverseBase selectedAlgorithm = null;
+    TraverseBase selectedAlgorithm;
 
     do {
       output.emitTraverseQuestion();
@@ -193,9 +207,14 @@ public class Controller {
   }
 
   private void handleSaveQuit(String filename) {
-    System.out.println("Unimplemented.");
-    //todo: write json
-
+    try {
+      String epochsJson = converter.toJSON(epochs);
+      output.writeFile(epochsJson, filename);
+    } catch (Throwable err) {
+      System.out.println("Problems saving to a file. Try again.");
+      nextCommand = new Command(CommandType.GET_COMMAND);
+      return;
+    }
     nextCommand = new Command(CommandType.QUIT);
   }
 
@@ -213,13 +232,14 @@ public class Controller {
   private void finalSequence() {
     output.emitFinalStats();
 
-    Boolean save = null;
+    Boolean save;
     do {
       output.emitFinalSaveQuestion();
       save = input.readYesNo();
     } while (save == null);
 
     if (save) {
+      output.emitFilenameQuestion();
       String filename = input.getStringEntered();
       nextCommand = new Command(CommandType.SAVE_QUIT, new Param<>(filename));
       return;

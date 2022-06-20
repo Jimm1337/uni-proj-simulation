@@ -8,9 +8,14 @@ version '0.1'
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://artifactory.cronapp.io/public-release/"
+    }
 }
 
 dependencies {
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson-extras:2.8.5'
 }
 
 application {
