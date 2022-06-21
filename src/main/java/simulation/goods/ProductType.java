@@ -14,7 +14,7 @@ public enum ProductType {
   GEM,
   /**
    * Soap commodity type.
-  */
+   */
   SOAP,
   /**
    * Food type.

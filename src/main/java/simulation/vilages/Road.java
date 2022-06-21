@@ -11,10 +11,9 @@ import simulation.player.PlayerState;
 public class Road {
   private static final float RISK_RAND_MULTI = 0.002f;
 
-  private final Position start;
-  private final Position finish;
-  private final Difficulty     difficulty;
-  private final Epochs epochs;
+  private final Position   start;
+  private final Position   finish;
+  private final Difficulty difficulty;
 
   /**
    * Default generated constructor.
@@ -23,7 +22,6 @@ public class Road {
    * @param epochs Epochs.
    */
   public Road(Position start, Position finish, Epochs epochs) {
-    this.epochs = epochs;
     this.start      = start;
     this.finish     = finish;
     this.difficulty = epochs.getDifficulty();

@@ -29,7 +29,7 @@ public class AggressiveStrategy implements StrategyType {
    */
   @Override
   public void fluctuateFoodConsumption() {
-    foodConsumption += difficulty.getRandomInt() * FOOD_RAND_MULTI;
+    foodConsumption = 15.0f + difficulty.getRandomFloat() * FOOD_RAND_MULTI;
   }
 
   /**
@@ -38,7 +38,7 @@ public class AggressiveStrategy implements StrategyType {
    */
   @Override
   public void fluctuatePriceMultiplier() {
-    priceMultiplier += difficulty.getRandomFloat() * PRICE_RAND_MULTI;
+    priceMultiplier = 0.7f + difficulty.getRandomFloat() * PRICE_RAND_MULTI;
   }
 
   /**

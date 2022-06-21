@@ -3,31 +3,29 @@ package io.console;
 import io.arguments.Difficulty;
 import io.json.Converter;
 import simulation.computation.TraverseBase;
-import simulation.computation.TraverseDistance;
 import simulation.environment.Epochs;
-import simulation.strategy.AggressiveStrategy;
 import simulation.strategy.StrategyType;
 
 /**
  * Controls the program flow, executes commands.
  */
 public class Controller {
-  private Input                    input;
-  private Output                   output;
-  private Epochs                   epochs;
-  private Command                  nextCommand;
-  private Converter converter;
+  private Input           input;
+  private Output          output;
+  private Epochs          epochs;
+  private Command         nextCommand;
+  private final Converter converter;
 
   /**
    * Constructor, creates io, grabs Epochs (main simulation class) instance.
    * @param difficulty Difficulty.
    */
   public Controller(Difficulty difficulty) {
-    this.epochs       = new Epochs(difficulty);
-    this.input        = new Input(epochs);
-    this.output       = new Output(epochs);
-    this.nextCommand  = new Command(CommandType.ENTRY);
-    this.converter = new Converter();
+    this.epochs      = new Epochs(difficulty);
+    this.input       = new Input(epochs);
+    this.output      = new Output(epochs);
+    this.nextCommand = new Command(CommandType.ENTRY);
+    this.converter   = new Converter();
   }
 
   /**
@@ -38,7 +36,7 @@ public class Controller {
       try {
         executeCommand(nextCommand);
       } catch (IllegalArgumentException err) {
-        output.emitInvalidCommand();
+        output.setError(ErrorMsg.INVALID_COMMAND);
         executeCommand(new Command(CommandType.GET_COMMAND));
       }
     }
@@ -106,21 +104,27 @@ public class Controller {
     }
   }
 
-  // COMMAND HANDLERS // //todo
+  // COMMAND HANDLERS //
 
+  /**
+   * Internal GET_COMMAND handler.
+   */
   private void handleGetCommand() {
     do {
       output.clearScreen();
       output.emitHeader();
       output.emitField();
-      if (nextCommand == null) {
-        output.emitInvalidCommand();
-      }
       output.emitPrompt();
       nextCommand = input.readCommand();
+      if (nextCommand == null) {
+        output.setError(ErrorMsg.INVALID_COMMAND);
+      }
     } while (nextCommand == null);
   }
 
+  /**
+   * Internal ENTRY handler.
+   */
   private void handleEntry() {
     output.clearScreen();
     output.emitHeader();
@@ -139,19 +143,17 @@ public class Controller {
     }
 
     nextCommand = new Command(CommandType.SET_STRATEGY);
-
-    //debug entry
-//    epochs.setStrategyType(new AggressiveStrategy(epochs));
-//    epochs.setTraverseAlgorithm(new TraverseDistance(epochs));
-//    while (true) epochs.advance();
   }
 
+  /**
+   * Internal RESUME handler.
+   */
   private void handleResume(String filename) {
     try {
-      String fileRead = output.readFile(filename);
+      String fileRead = input.readFile(filename);
       epochs = converter.fromJSON(fileRead);
     } catch (Throwable err) {
-      System.out.println(err.getMessage() + "Invalid file. Try again.");
+      output.setError(ErrorMsg.INVALID_FILE);
       nextCommand = new Command(CommandType.ENTRY);
       return;
     }
@@ -160,12 +162,18 @@ public class Controller {
     nextCommand = new Command(CommandType.GET_COMMAND);
   }
 
+  /**
+   * Internal SET_STRATEGY handler.
+   */
   private void handleSetStrategy() {
     StrategyType selectedStrategy;
 
     do {
       output.emitStrategyQuestion();
       selectedStrategy = input.readStrategy();
+      if (selectedStrategy == null) {
+        output.setError(ErrorMsg.INVALID_STRATEGY);
+      }
     } while (selectedStrategy == null);
 
     epochs.setStrategyType(selectedStrategy);
@@ -173,12 +181,18 @@ public class Controller {
     nextCommand = new Command(CommandType.SET_TRAVERSAL);
   }
 
+  /**
+   * Internal SET_TRAVERSE handler.
+   */
   private void handleSetTraversal() {
     TraverseBase selectedAlgorithm;
 
     do {
       output.emitTraverseQuestion();
       selectedAlgorithm = input.readTraverse();
+      if (selectedAlgorithm == null) {
+        output.setError(ErrorMsg.INVALID_TRAVERSE);
+      }
     } while (selectedAlgorithm == null);
 
     epochs.setTraverseAlgorithm(selectedAlgorithm);
@@ -186,6 +200,9 @@ public class Controller {
     nextCommand = new Command(CommandType.GET_COMMAND);
   }
 
+  /**
+   * Internal ADVANCE handler.
+   */
   private void handleAdvance() {
     epochs.advance();
     if (epochs.isSimulationFinished()) {
@@ -196,6 +213,9 @@ public class Controller {
     nextCommand = new Command(CommandType.GET_COMMAND);
   }
 
+  /**
+   * Internal ADVANCE_BY handler.
+   */
   private void handleAdvanceBy(int by) {
     epochs.advanceBy(by);
     if (epochs.isSimulationFinished()) {
@@ -206,22 +226,31 @@ public class Controller {
     nextCommand = new Command(CommandType.GET_COMMAND);
   }
 
+  /**
+   * Internal SAVE_QUIT handler.
+   */
   private void handleSaveQuit(String filename) {
     try {
       String epochsJson = converter.toJSON(epochs);
       output.writeFile(epochsJson, filename);
     } catch (Throwable err) {
-      System.out.println("Problems saving to a file. Try again.");
+      output.setError(ErrorMsg.ERROR_SAVE);
       nextCommand = new Command(CommandType.GET_COMMAND);
       return;
     }
     nextCommand = new Command(CommandType.QUIT);
   }
 
+  /**
+   * Internal QUIT handler.
+   */
   private void handleQuit() {
     nextCommand = null;
   }
 
+  /**
+   * Internal HELP handler.
+   */
   private void handleHelp() {
     output.clearScreen();
     output.emitHelpPage();
@@ -229,6 +258,9 @@ public class Controller {
     nextCommand = new Command(CommandType.GET_COMMAND);
   }
 
+  /**
+   * Internal final sequence handler.
+   */
   private void finalSequence() {
     output.emitFinalStats();
 

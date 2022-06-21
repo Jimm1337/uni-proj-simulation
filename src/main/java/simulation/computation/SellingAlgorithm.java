@@ -19,14 +19,14 @@ public class SellingAlgorithm {
 
   private final PlayerStorage playerStorage;
   private final StrategyType  strategyType;
-  private final Epochs epochs;
+  private final Epochs        epochs;
 
   /**
    * Grabs strategy and player storage ref.
    * @param epochs Epochs.
    */
   public SellingAlgorithm(Epochs epochs) {
-    this.epochs = epochs;
+    this.epochs       = epochs;
     this.strategyType = epochs.getStrategyType();
     playerStorage     = epochs.getPlayerStorage();
   }
@@ -42,10 +42,10 @@ public class SellingAlgorithm {
     Map<ProductType, Float> weights = generateWeights(village);
 
     for (var entry : weights.entrySet()) {
-      ProductType type = entry.getKey();
-      float   weightToSell  = weights.get(type);
-      Product productToSell = new Product(type, weightToSell);
-      float   price         = village.getPrice(type);
+      ProductType type          = entry.getKey();
+      float       weightToSell  = weights.get(type);
+      Product     productToSell = new Product(type, weightToSell);
+      float       price         = village.getPrice(type);
 
       Transaction toAdd = new Transaction(
         price, productToSell, TransactionType.SELL, strategyType, epochs);
@@ -64,7 +64,7 @@ public class SellingAlgorithm {
     Village village) {
     Map<Float, ProductType> prices = new TreeMap<>(Comparator.reverseOrder());
     for (ProductType type : ProductType.values()) {
-      if (type == ProductType.FOOD) continue;
+      if (type == ProductType.FOOD) { continue; }
       float price = village.getPrice(type);
       prices.put(price, type);
     }
@@ -82,8 +82,7 @@ public class SellingAlgorithm {
 
     // insert into returning map with generated descending prices set
     int i = 0;
-    for (Map.Entry<Float, ProductType> entry :
-         getDescendingPricesSet(village)) {
+    for (var entry : getDescendingPricesSet(village)) {
       float       percentage = PERCENT_TO_SELL_OFF * TRANSACTION_RATIOS[i];
       ProductType type       = entry.getValue();
       ret.put(type, percentage);
@@ -107,13 +106,13 @@ public class SellingAlgorithm {
 
     // put into return either the target to sell or whatever village can afford
     int i = 0;
-    for (Map.Entry<ProductType, Float> entry : percentages.entrySet()) {
+    for (var entry : percentages.entrySet()) {
       ProductType type               = entry.getKey();
       Product     stock              = playerStock.get(type);
       float       toSellFraq         = entry.getValue();
       float       price              = village.getPrice(type);
       float       targetWeightToSell = stock.getWeight() * toSellFraq;
-      float villageCanAfford = (villageMoney / price) * TRANSACTION_RATIOS[0];
+      float villageCanAfford = (villageMoney / price) * TRANSACTION_RATIOS[i];
       ret.put(type, Math.min(targetWeightToSell, villageCanAfford));
       ++i;
     }

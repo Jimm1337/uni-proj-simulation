@@ -12,7 +12,7 @@ public class Transaction {
   private final Product         product;
   private final TransactionType transactionType;
   private final StrategyType    strategyType;
-  private final Epochs epochs;
+  private final Epochs          epochs;
 
   /**
    * Initialize the transaction with details.
@@ -27,8 +27,8 @@ public class Transaction {
     Product         product,
     TransactionType transactionType,
     StrategyType    strategyType,
-    Epochs epochs) {
-    this.epochs = epochs;
+    Epochs          epochs) {
+    this.epochs          = epochs;
     this.price           = price;
     this.product         = product;
     this.transactionType = transactionType;

@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.stream.IntStream;
 import simulation.environment.Epochs;
 import simulation.environment.Position;
@@ -20,33 +21,36 @@ import simulation.vilages.Village;
  * Controls the console output.
  */
 public class Output {
+  // MSGS, PROPERTIES //
+
   private static final String PROMPT_TEXT = "Command (h<Enter> for help): ";
-  private static final String INVALID_COMMAND_TEXT =
-    "Invalid command-argument combination!";
-  private static final String VILLAGE_SPACING  = "25";
-  private static final String HEADER           = "~~~ Merchant Simulation ~~~";
-  private static final String LOAD_MESSAGE     = "Load?[y/n]: ";
+
+  private static final String VILLAGE_SPACING = "25";
+  private static final String HEADER          = "~~~ Merchant Simulation ~~~";
+
   private static final String FILENAME_MESSAGE = "Filename: ";
-  private static final String INVALID_FILE_MESSAGE = "Invalid file!";
-  private static final String STRATEGY_MESSAGE =
-    "Strategy Type?[a (aggressive)/ b (balanced)/ c (conservative)]: ";
-  private static final String INVALID_STRATEGY_MESSAGE = "Invalid strategy!";
+
   private static final String TRAVERSE_MESSAGE =
     "Traverse method?[p (price)/ d (distance)]: ";
-  private static final String INVALID_TRAVERSE_MESSAGE =
-    "Invalid traverse method!";
-  private static final String PRESS_TO_STOP_MESSAGE = "Press 's' to stop.";
+  private static final String STRATEGY_MESSAGE =
+    "Strategy Type?[a (aggressive)/ b (balanced)/ c (conservative)]: ";
+
+  private static final String LOAD_MESSAGE                = "Load?[y/n]: ";
   private static final String FINAL_SAVE_QUESTION_MESSAGE = "Save?[y/n]: ";
   private static final String TRY_AGAIN_MESSAGE           = "Try again?[y/n]: ";
 
+  //-----------------//
+
   private final Epochs epochs;
   private String       cachedHelp;
+  private ErrorMsg     error;
 
   /**
    * Grabs epochs, prepares cachedHelp for lazy evaluation.
    * @param epochs Epochs.
    */
   public Output(Epochs epochs) {
+    this.error      = null;
     this.epochs     = epochs;
     this.cachedHelp = null;
   }
@@ -55,11 +59,7 @@ public class Output {
    * Clears screen.
    */
   public void clearScreen() {
-    try {
-      Runtime.getRuntime().exec("clear");
-    } catch (Throwable ignored) {}
-
-    System.out.flush();
+    System.out.print("\033\143");
   }
 
   /**
@@ -84,13 +84,6 @@ public class Output {
   }
 
   /**
-   * Signal invalid file.
-   */
-  public void emitInvalidFileMessage() {
-    draw(INVALID_FILE_MESSAGE);
-  }
-
-  /**
    * Ask for strategy type.
    */
   public void emitStrategyQuestion() {
@@ -98,38 +91,10 @@ public class Output {
   }
 
   /**
-   * Signal invalid strategy type.
-   */
-  public void emitInvalidStrategy() {
-    draw(INVALID_STRATEGY_MESSAGE);
-  }
-
-  /**
    * Ask for traverse strategy.
    */
   public void emitTraverseQuestion() {
     drawPromptLike(TRAVERSE_MESSAGE);
-  }
-
-  /**
-   * Signal invalid traverse strategy.
-   */
-  public void emitInvalidTraverse() {
-    draw(INVALID_TRAVERSE_MESSAGE);
-  }
-
-  /**
-   * Print a hint to stop Advance auto.
-   */
-  public void emitStopHint() {
-    drawPromptLike(PRESS_TO_STOP_MESSAGE);
-  }
-
-  /**
-   * Ask for another try.
-   */
-  public void emitTryAgain() {
-    drawPromptLike(TRY_AGAIN_MESSAGE);
   }
 
   /**
@@ -151,7 +116,7 @@ public class Output {
       for (CommandType type : CommandType.values()) {
         builder.append(type.manualEntry());
       }
-      builder.append("Press Enter to close this manual.");
+      builder.append("\nPress Enter to close this manual.");
 
       cachedHelp = builder.toString();
     }
@@ -163,7 +128,7 @@ public class Output {
    * Print final message.
    */
   public void emitFinalStats() {
-    String message = "Simulation finished!\n"
+    String message = "\nSimulation finished!\n"
                      + "Epochs count: " + epochs.getCount() + '\n';
 
     draw(message);
@@ -190,13 +155,6 @@ public class Output {
   }
 
   /**
-   * Signal Invalid command.
-   */
-  public void emitInvalidCommand() {
-    draw(INVALID_COMMAND_TEXT);
-  }
-
-  /**
    * Internal drawing implementation.
    * @param toDraw String to draw.
    */
@@ -209,6 +167,10 @@ public class Output {
    * @param toDraw Prompt like representation to draw.
    */
   private void drawPromptLike(String toDraw) {
+    if (error != null) {
+      draw(error.toString());
+      error = null;
+    }
     System.out.print(toDraw);
     System.out.flush();
   }
@@ -299,19 +261,22 @@ public class Output {
 
     Position position    = state.getCurrentPosition();
     String   rowPosition = String.format(
-      "Position -> X: %.2f, Y: %.2f\n", position.getX(), position.getY());
+      "Position                 -> X: %.2f, Y: %.2f\n",
+      position.getX(),
+      position.getY());
     playerBuilder.append(rowPosition);
 
     Product foodStock        = storage.getProduct(ProductType.FOOD);
     float   dailyConsumption = strategy.getFoodConsumption();
     String  rowFood          = String.format(
-      "Food -> Stock: %.2f, Consumption: %.2f\n",
+      "Food                     -> Stock: %.2f, Consumption: %.2f\n",
       foodStock.getWeight(),
       dailyConsumption);
     playerBuilder.append(rowFood);
 
-    float  money    = storage.getMoney();
-    String rowMoney = String.format("Money -> %.2f\n", money);
+    float  money = storage.getMoney();
+    String rowMoney =
+      String.format("Money                    -> %.2f\n", money);
     playerBuilder.append(rowMoney);
 
     boolean lastEpochAttacked = state.isAttacked();
@@ -345,20 +310,16 @@ public class Output {
    * @throws IOException Problems writing to a file.
    */
   public void writeFile(String contents, String filename) throws IOException {
-    Path path = Paths.get(filename);
+    Path path         = Paths.get(filename);
     byte[] strToBytes = contents.getBytes();
     Files.write(path, strToBytes);
   }
 
   /**
-   * Read from a file.
-   * @param filename Filename to be read.
-   * @return Contents.
-   * @throws IOException Problems reading a file.
+   * Set error to be printed on next prompt.
+   * @param error Error.
    */
-  public String readFile(String filename) throws IOException {
-    Path path = Paths.get(filename);
-    byte[] read = Files.readAllBytes(path);
-    return new String(read);
+  public void setError(ErrorMsg error) {
+    this.error = error;
   }
 }

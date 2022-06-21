@@ -12,7 +12,7 @@ import simulation.player.PlayerStorage;
 public class Thugs {
   private static final float BASE_STEAL_SEVERITY = 0.25f;
 
-  private final float stealPercent;
+  private final float  stealPercent;
   private final Epochs epochs;
 
   /**
@@ -21,10 +21,10 @@ public class Thugs {
    * @param epochs Epochs.
    */
   public Thugs(Epochs epochs) {
-    this.epochs = epochs;
-    Difficulty  difficulty = epochs.getDifficulty();
-    final float stealMulti = difficulty.getStealMultiplier();
-    stealPercent           = BASE_STEAL_SEVERITY * stealMulti;
+    this.epochs           = epochs;
+    Difficulty difficulty = epochs.getDifficulty();
+    float      stealMulti = difficulty.getStealMultiplier();
+    stealPercent          = BASE_STEAL_SEVERITY * stealMulti;
   }
 
   /**

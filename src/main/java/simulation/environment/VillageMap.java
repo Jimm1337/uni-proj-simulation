@@ -15,8 +15,8 @@ public class VillageMap {
   private static final float POS_RAND_MULTI    = 20.0f;
 
   private ArrayList<Village> villages;
-  private final Difficulty         difficulty;
-  private final Epochs epochs;
+  private final Difficulty   difficulty;
+  private final Epochs       epochs;
 
   /**
    * Singleton constructor, initializes map, grabs difficulty instance.
@@ -74,18 +74,18 @@ public class VillageMap {
 
     Village  currentBest         = villages.get(0);
     Position currentBestPosition = currentBest.getPosition();
-    Road     currentBestRoad = new Road(playerPosition, currentBestPosition, epochs);
-    float    currentBestDistance = currentBestRoad.calculateDistance();
+    Road     currentBestRoad =
+      new Road(playerPosition, currentBestPosition, epochs);
+    float currentBestDistance = currentBestRoad.calculateDistance();
 
     for (Village village : villages) {
       Position thisVillagePosition = village.getPosition();
-      Road     thisVillageRoad = new Road(playerPosition, thisVillagePosition, epochs);
-      float    thisVillageDistance = thisVillageRoad.calculateDistance();
+      Road     thisVillageRoad =
+        new Road(playerPosition, thisVillagePosition, epochs);
+      float thisVillageDistance = thisVillageRoad.calculateDistance();
 
       if (thisVillageDistance < currentBestDistance) {
         currentBest         = village;
-        currentBestPosition = thisVillagePosition;
-        currentBestRoad     = thisVillageRoad;
         currentBestDistance = thisVillageDistance;
       }
     }

@@ -28,7 +28,7 @@ public class BalancedStrategy implements StrategyType {
    */
   @Override
   public void fluctuateFoodConsumption() {
-    foodConsumption += difficulty.getRandomInt() * FOOD_RAND_MULTI;
+    foodConsumption = 12.0f + difficulty.getRandomFloat() * FOOD_RAND_MULTI;
   }
 
   /**

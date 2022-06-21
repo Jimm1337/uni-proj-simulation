@@ -5,23 +5,56 @@ package io.console;
  * description.
  */
 enum CommandType {
+  /**
+   * Get next command. (internal)
+   */
   GET_COMMAND,
+  /**
+   * Simulation entry. (internal)
+   */
   ENTRY,
+  /**
+   * Resume from file. (internal)
+   */
   RESUME,
+  /**
+   * Set strategy type. (internal)
+   */
   SET_STRATEGY,
+  /**
+   * Set traverse algorithm. (internal)
+   */
   SET_TRAVERSAL,
+  /**
+   * Advance by 1 epoch. (user)
+   */
   ADVANCE,
+  /**
+   * Advance by n epochs. (user)
+   */
   ADVANCE_BY,
+  /**
+   * Save and quit. (user)
+   */
   SAVE_QUIT,
+  /**
+   * Quit. (user and internal)
+   */
   QUIT,
+  /**
+   * Display the manual. (user)
+   */
   HELP,
+  /**
+   * Invalid state.
+   */
   INVALID;
 
   private static final String NO_MANUAL = "";
 
   /**
    * Grab manual for each type.
-   * @return If command ought to be used by user return a description, else
+   * @return If command ought to be used by user return a description else
    *   return ""
    */
   public String manualEntry() {

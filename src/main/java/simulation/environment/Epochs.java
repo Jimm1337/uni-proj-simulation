@@ -1,7 +1,7 @@
 package simulation.environment;
 
-import java.util.stream.IntStream;
 import io.arguments.Difficulty;
+import java.util.stream.IntStream;
 import simulation.computation.BuyingAlgorithm;
 import simulation.computation.Dice;
 import simulation.computation.SellingAlgorithm;
@@ -28,14 +28,14 @@ public class Epochs {
   private final VillageMap    villageMap;
   private boolean             finishTheSimulation;
   private Village             currentVillage;
-  private final Difficulty difficulty;
+  private final Difficulty    difficulty;
 
   /**
    * Constructor, construct using setters in controller.
    * @param difficulty Difficulty.
    */
   public Epochs(Difficulty difficulty) {
-    this.difficulty = difficulty;
+    this.difficulty          = difficulty;
     this.playerStorage       = new PlayerStorage(this);
     this.playerState         = new PlayerState();
     this.dice                = new Dice();
@@ -101,15 +101,13 @@ public class Epochs {
     float   costPerUnitOfRoad = strategyType.getTravelCost();
     boolean toBeAttacked      = dice.roll(risk);
 
+    strategyType.fluctuateFoodConsumption();
+    strategyType.fluctuatePriceMultiplier();
     playerStorage.consumeDailyFood();
 
     float travelCost =
       Math.min(distance * costPerUnitOfRoad, playerStorage.getMoney());
     playerStorage.subtractMoney(travelCost);
-
-    if (Float.isNaN(playerStorage.getMoney())) {
-      throw new NumberFormatException("NaN");
-    }
 
     if (playerState.isDead()) {
       finishTheSimulation = true;
@@ -207,30 +205,6 @@ public class Epochs {
    */
   public VillageMap getVillageMap() {
     return villageMap;
-  }
-
-  /**
-   * Buying algorithm getter.
-   * @return Used buying algorithm.
-   */
-  public BuyingAlgorithm getBuyingAlgorithm() {
-    return buyingAlgorithm;
-  }
-
-  /**
-   * Selling algorithm getter.
-   * @return Used selling algorithm
-   */
-  public SellingAlgorithm getSellingAlgorithm() {
-    return sellingAlgorithm;
-  }
-
-  /**
-   * Traverse algorithm getter.
-   * @return Used traverse algorithm.
-   */
-  public TraverseBase getTraverseAlgorithm() {
-    return traverseAlgorithm;
   }
 
   /**

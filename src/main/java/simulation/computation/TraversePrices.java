@@ -7,7 +7,6 @@ import simulation.vilages.Village;
  * Traversal based on calculated price indexes.
  */
 public class TraversePrices extends TraverseBase {
-
   /**
    * Constructor, grabs map.
    * @param epochs Epochs.

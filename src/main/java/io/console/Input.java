@@ -1,6 +1,10 @@
 package io.console;
 
 import java.io.Console;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import simulation.computation.TraverseBase;
 import simulation.computation.TraverseDistance;
 import simulation.computation.TraversePrices;
@@ -15,14 +19,14 @@ import simulation.strategy.StrategyType;
  */
 public class Input {
   private final Console console;
-  private final Epochs epochs;
+  private final Epochs  epochs;
 
   /**
-   * Constructor, grabs kb handle, inits key status map
+   * Inits console.
    * @param epochs Epochs.
    */
   public Input(Epochs epochs) {
-    console = System.console();
+    console     = System.console();
     this.epochs = epochs;
   }
 
@@ -128,5 +132,17 @@ public class Input {
     String read = console.readLine();
 
     return read;
+  }
+
+  /**
+   * Read from a file.
+   * @param filename Filename to be read.
+   * @return Contents.
+   * @throws IOException Problems reading a file.
+   */
+  public String readFile(String filename) throws IOException {
+    Path path = Paths.get(filename);
+    byte[] read = Files.readAllBytes(path);
+    return new String(read);
   }
 }

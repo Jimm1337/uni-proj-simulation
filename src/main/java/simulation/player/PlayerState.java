@@ -7,12 +7,12 @@ import simulation.environment.Position;
  * epoch.
  */
 public class PlayerState {
-  private boolean            isAttacked;
-  private Position           currentPosition;
-  private boolean            isDead;
+  private boolean  isAttacked;
+  private Position currentPosition;
+  private boolean  isDead;
 
   /**
-   * Constructor.
+   * Initialize position to 0,0.
    */
   public PlayerState() {
     isAttacked      = false;

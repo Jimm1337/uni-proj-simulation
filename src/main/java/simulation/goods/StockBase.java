@@ -9,8 +9,8 @@ import java.util.Set;
  * Base class for storage.
  */
 public abstract class StockBase {
-  private Map<ProductType, Product> stock;
-  private float                     money;
+  private final Map<ProductType, Product> stock;
+  private float                           money;
 
   /**
    * Constructor. Initializes stock HashMap.

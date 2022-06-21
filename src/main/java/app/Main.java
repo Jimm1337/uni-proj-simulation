@@ -28,11 +28,8 @@ public class Main {
       return;
     }
 
-    Difficulty difficulty = argParser.getDifficulty();
+    Difficulty difficulty        = argParser.getDifficulty();
     Controller consoleController = new Controller(difficulty);
     consoleController.entry();
   }
 }
-
-// todo: finishing touches.
-// todo: docs.

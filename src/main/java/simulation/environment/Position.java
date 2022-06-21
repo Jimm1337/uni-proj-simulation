@@ -4,8 +4,8 @@ package simulation.environment;
  * Represents a position on a plane.
  */
 public class Position {
-  private float x;
-  private float y;
+  private final float x;
+  private final float y;
 
   /**
    * Position of constructor.
@@ -31,21 +31,5 @@ public class Position {
    */
   public float getY() {
     return y;
-  }
-
-  /**
-   * Sets the X coordinate.
-   * @param x New X coordinate.
-   */
-  public void setX(float x) {
-    this.x = x;
-  }
-
-  /**
-   * Sets the Y coordinate.
-   * @param y New Y coordinate.
-   */
-  public void setY(float y) {
-    this.y = y;
   }
 }

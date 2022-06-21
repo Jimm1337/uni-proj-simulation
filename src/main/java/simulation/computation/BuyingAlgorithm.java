@@ -20,14 +20,14 @@ public class BuyingAlgorithm {
 
   private final PlayerStorage playerStorage;
   private final StrategyType  strategyType;
-  private final Epochs epochs;
+  private final Epochs        epochs;
 
   /**
    * Grabs strategy and player storage ref.
    * @param epochs Epochs.
    */
   public BuyingAlgorithm(Epochs epochs) {
-    this.epochs = epochs;
+    this.epochs       = epochs;
     this.strategyType = epochs.getStrategyType();
     playerStorage     = epochs.getPlayerStorage();
   }
@@ -47,8 +47,8 @@ public class BuyingAlgorithm {
       Product productToBuy = new Product(type, weightToBuy);
       float   price        = village.getPrice(type);
 
-      Transaction toAdd =
-        new Transaction(price, productToBuy, TransactionType.BUY, strategyType, epochs);
+      Transaction toAdd = new Transaction(
+        price, productToBuy, TransactionType.BUY, strategyType, epochs);
       ret.add(toAdd);
     }
 
@@ -113,7 +113,7 @@ public class BuyingAlgorithm {
 
     // put into return either the stock or whatever player can afford
     int i = 0;
-    for (Map.Entry<ProductType, Float> entry : percentages.entrySet()) {
+    for (var entry : percentages.entrySet()) {
       ProductType type        = entry.getKey();
       Product     stock       = villageStock.get(type);
       float       stockWeight = stock.getWeight();

@@ -1,7 +1,7 @@
 package io.json;
 
-import com.google.gson.graph.*;
 import com.google.gson.*;
+import com.google.gson.graph.*;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import io.arguments.Difficulty;
 import simulation.computation.*;
@@ -21,37 +21,36 @@ public class Converter {
   private final Gson gson;
 
   /**
-   * Set up Gson Object to interpret Epochs class with Traverse and StrategyType inheritance and recursive dependencies.
+   * Set up Gson Object to interpret Epochs class with Traverse and StrategyType
+   * inheritance and recursive dependencies.
    */
   public Converter() {
-    RuntimeTypeAdapterFactory<TraverseBase> traverseTypeAdapter = RuntimeTypeAdapterFactory.of(TraverseBase.class)
+    RuntimeTypeAdapterFactory<TraverseBase> traverseTypeAdapter =
+      RuntimeTypeAdapterFactory.of(TraverseBase.class)
         .registerSubtype(TraversePrices.class)
-        .registerSubtype(TraverseDistance.class)
-        ;
+        .registerSubtype(TraverseDistance.class);
 
-    RuntimeTypeAdapterFactory<StrategyType> strategyTypeAdapter = RuntimeTypeAdapterFactory.of(StrategyType.class)
+    RuntimeTypeAdapterFactory<StrategyType> strategyTypeAdapter =
+      RuntimeTypeAdapterFactory.of(StrategyType.class)
         .registerSubtype(AggressiveStrategy.class)
         .registerSubtype(BalancedStrategy.class)
-        .registerSubtype(ConservativeStrategy.class)
-        ;
+        .registerSubtype(ConservativeStrategy.class);
 
     GsonBuilder builder = new GsonBuilder();
 
-    builder
-        .setPrettyPrinting()
-        .registerTypeAdapterFactory(strategyTypeAdapter)
-        .registerTypeAdapterFactory(traverseTypeAdapter)
-        ;
+    builder.setPrettyPrinting()
+      .registerTypeAdapterFactory(strategyTypeAdapter)
+      .registerTypeAdapterFactory(traverseTypeAdapter);
 
     new GraphAdapterBuilder()
-        .addType(Epochs.class)
-        .addType(BuyingAlgorithm.class)
-        .addType(SellingAlgorithm.class)
-        .addType(PlayerStorage.class)
-        .addType(PlayerState.class)
-        .addType(VillageMap.class)
-        .addType(Difficulty.class)
-        .registerOn(builder);
+      .addType(Epochs.class)
+      .addType(BuyingAlgorithm.class)
+      .addType(SellingAlgorithm.class)
+      .addType(PlayerStorage.class)
+      .addType(PlayerState.class)
+      .addType(VillageMap.class)
+      .addType(Difficulty.class)
+      .registerOn(builder);
 
     this.gson = builder.create();
   }
