@@ -46,6 +46,6 @@ public class Road {
     final float riskPerUnit =
       Math.abs(difficulty.getRandomFloat() * RISK_RAND_MULTI);
 
-    return distance * riskPerUnit;
+    return (distance * riskPerUnit);
   }
 }

@@ -137,7 +137,7 @@ public class Village extends StockBase implements TransactionChecker {
   private float calculatePriceIndex() {
     float sumOfPrices = 0.0f;
     for (float price : prices.values()) {
-          sumOfPrices += price;
+      sumOfPrices += price;
     }
     float simpleAverage = sumOfPrices / prices.size();
 
@@ -149,6 +149,6 @@ public class Village extends StockBase implements TransactionChecker {
    * @return Simple Average of prices.
    */
   public float getPriceIndex() {
-        return priceIndex;
-      }
+    return priceIndex;
+  }
 }

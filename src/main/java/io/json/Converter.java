@@ -68,6 +68,7 @@ public class Converter {
    * Convert JSON of Epochs to Epochs Object.
    * @param game JSON of Epochs.
    * @return Epochs object.
+   * @throws JsonSyntaxException bad json.
    */
   public Epochs fromJSON(String game) {
     return gson.fromJson(game, Epochs.class);

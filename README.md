@@ -11,7 +11,9 @@ Tested on:
 
 ```shell
 $ ./gradlew assembleDist
-$ cd build/distributions/bin
+$ cd build/distributions
+$ tar -xvf uni-proj-simulation-1.0.tar
+$ cd uni-proj-simulation/bin
 $ ./uni-proj-simulation <RNG> <StealMulti>
 ```
 

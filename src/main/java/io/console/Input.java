@@ -127,6 +127,7 @@ public class Input {
   /**
    * Read an enter-confirmed sequence.
    * @return Resulting sequence.
+   * @throws java.io.IOError on null console.
    */
   public String getStringEntered() {
     String read = console.readLine();
