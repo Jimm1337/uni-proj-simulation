@@ -10,10 +10,12 @@ Tested on:
 - Gradle: 7.4.2
 
 ```shell
+$ git clone https://github.com/Jimm1337/uni-proj-simulation.git
+$ cd uni-proj-simulation
 $ ./gradlew assembleDist
 $ cd build/distributions
 $ tar -xvf uni-proj-simulation-1.0.tar
-$ cd uni-proj-simulation/bin
+$ cd uni-proj-simulation-1.0/bin
 $ ./uni-proj-simulation <RNG> <StealMulti>
 ```
 
@@ -23,6 +25,7 @@ $ ./uni-proj-simulation <RNG> <StealMulti>
 - Console IO
 
 ## Documentation
+- [Natural language PL](doc/natural-language-PL.pdf)
 - [Class schema](doc/class-schema.pdf)
 
 #### Javadoc 
@@ -33,4 +36,3 @@ Location: ./build/docs/javadoc/index.html
 
 ### todo
 - Update schema
-- Natural language doc (latex)

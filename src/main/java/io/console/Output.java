@@ -112,7 +112,7 @@ public class Output {
       StringBuilder builder = new StringBuilder();
 
       builder.append(
-        "(Command [Optional - without :]:PARAM [Optional]<Enter>) |Command Name| - Description.\n");
+        "(Command [Optional]PARAM <Enter>) |Command Name| - Description.\n\n");
       for (CommandType type : CommandType.values()) {
         builder.append(type.manualEntry());
       }

@@ -1,0 +1,64 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{setspace}
+\usepackage{times}
+\usepackage{fancyhdr}
+\usepackage{nameref}
+
+\title{Merchant simulation - projekt symulacji na laboratorium Programowanie Obiektowe.}
+\author{Gusta Oskar, Zajęcia: K00-65g (wt 19:05)}
+\date{23.06.2022r.}
+
+%\pagestyle{fancy}
+%\fancyhf{}
+\cfoot{\thepage}
+
+\begin{document}
+
+  \onehalfspacing
+  \maketitle
+  \newpage
+  \tableofcontents
+  \newpage
+
+  \section{Koncept}
+
+  Program wykonuje symulację której celem jest pokazanie przebiegu handlu na zadanych algorytmach i z określoną losowością.
+
+  \section{Opis działania}
+
+  Po uruchomieniu projektu z zadanymi argumentami decydującymi o losowości zostaje użytkownikowi przedstawiona możliwość kontynuowania symulacji która wcześniej została zapisana.
+  Jeśli użytkownik posiada plik z zapisanym stanem symulacji, może on go wczytać w tym kroku.
+  W przeciwnym wypadku wyświetlane jest pytanie o typ strategii i algorytm odpowiedzialny za przemieszczanie się.
+  Następnie po wczytaniu lub wybraniu stworzeniu nowej symulacji użytkownikowi jest prezentowana właściwa część programu.
+  Na górze ekranu wyświetlane są wioski z podstawowymi danymi, są one losowo generowane co trzecią turę symulacji i na początku.
+  Pod wioskami znajdują się dane kupca: pozycja, ilość i konsumpcja jedzenia na jeden 'dzień' symulacji, ilość pieniędzy, informacja czy kupiec został zaatakowany na ostatniej ścieżce do wioski oraz ilość posiadanych dóbr.
+  Użytkownik ma dostęp do konsoli sterowania z poziomu której może poruszać symulację do przodu o jeden lub kilka iteracji a także zapisać, wyjść oraz otworzyć pomoc z poziomu symulacji.
+
+  Co każdy epoch kupiec przemieszcza się do wioski za pomocą wybranego algorytmu i płaci cenę proporcjonalną do przebytej drogi.
+  W trakcie podróży kupiec może zostać zaatakowany z prawdopodobieństwem które zwiększa się z odległością konieczną do przebycia.
+  Jeśli dojdzie do ataku kupiec traci część pieniędzy oraz część z każdego typu posiadanego dobra, w tym jedzenia.
+  Następnie sprawdzana jest ilość jedzenia, jeśli jest nie wystarczająca symulacja kończy się i użytkownik jest pytany o zapis, po czym następuje wyjście z programu.
+  Jeśli zapas jedzenia jest wystarczający następuje przejście do sekcji sprzedaży i kupna.
+  Algorytmy kupują i sprzedają w proporcji z góry określonej, uporządkowanej przez ceny dóbr w wiosce.
+  Cykl programu powtarza się do momentu końca symulacji lub manualnego wyjścia z opcjonalnym zapisem.
+
+  Wybrane parametry mają wpływ na ogólną losowość symulacji oraz dotkliwość ataku, jeśli on nastąpi.
+  Wybrana strategia decyduje o losowości, konsumpcji jedzenia oraz o obniżce cen kupna.
+  Wybrany algorytm przemieszczania się odpowiada za to czy nasz kupiec będzie przemieszczał się do wioski która jest najbliżej czy do tej której \textit{Price Index} obliczany jako średnia algorytmiczna cen jest najniższy.
+
+  \section{Szczegóły techniczne}
+
+  Projekt posiada poprawne zapisywanie i odczytywanie stanu symulacji do formatu JSON z uwzględnieniem polimorfii oraz rekursywnych odwołań (\textit{io.json.Converter}).
+  Projekt korzysta z polimorfii na potrzeby wyboru strategii (Wykorzystanie \textit{simulation.environment.Epochs}, Implementacja \textit{simualtion.strategy.StrategyType}).
+  Projekt korzysta z klas abstakcyjnych oraz dziedziczenia (Na przykład \textit{simulation.goods.StockBase}).
+  Projekt korzysta z Javadoc do tworzenia dokumentacji poszczególnych klas, metod, stanów i pakietów.
+  Projekt posiada schemat klas zamieszczony w tym samym folderze w systemie git.
+  Projekt korzysta z kontroli źródła.
+
+  \newpage
+  Wykonano przy użyciu \LaTeX.
+
+\end{document}

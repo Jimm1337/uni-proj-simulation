@@ -60,19 +60,19 @@ enum CommandType {
   public String manualEntry() {
     switch (this) {
       case ADVANCE -> {
-        return "(a<Enter>) |Advance| - advance one epoch.\n";
+        return "(a<Enter>)           |Advance|    - advance one epoch.\n";
       }
       case ADVANCE_BY -> {
-        return "(ab :COUNT<Enter>) |Advance by| - advance by a fixed count of epochs.\n";
+        return "(ab COUNT<Enter>)    |Advance by| - advance by a fixed count of epochs.\n";
       }
       case SAVE_QUIT -> {
-        return "(sq :FILENAME<Enter>) |Save Quit| - save current state and exit.\n";
+        return "(sq FILENAME<Enter>) |Save Quit|  - save current state and exit.\n";
       }
       case QUIT -> {
-        return "(qq<Enter>) |Quit| - quit without saving.\n";
+        return "(qq<Enter>)          |Quit|       - quit without saving.\n";
       }
       case HELP -> {
-        return "(h<Enter>) |Help| - display this manual.\n";
+        return "(h<Enter>)           |Help|       - display this manual.\n";
       }
       default -> {
         return NO_MANUAL; //internal use commands
