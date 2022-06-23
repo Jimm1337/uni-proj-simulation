@@ -3,7 +3,7 @@
 
 Simple merchant simulation for uni.
 
-## Build and Run
+## <ins>Build and Run
 Tested on:
 - OS: Arch 5.18.5-zen1-1-zen
 - JDK: openjdk-18
@@ -19,20 +19,18 @@ $ cd uni-proj-simulation-1.0/bin
 $ ./uni-proj-simulation <RNG> <StealMulti>
 ```
 
-## Features
+## <ins>Features
 - Json
 - Save state
 - Console IO
 
-## Documentation
+## <ins>Documentation
 - [Natural language PL](doc/natural-language-PL.pdf)
-- [Class schema](doc/class-schema.pdf)
+- [UML schemas by package](doc/schemas-png)
+- [UML schema PDF](doc/schema-pdf.pdf)
 
-#### Javadoc 
+### Javadoc 
 ```shell
 $ ./gradlew javadoc
 ```
 Location: ./build/docs/javadoc/index.html
-
-### todo
-- Update schema

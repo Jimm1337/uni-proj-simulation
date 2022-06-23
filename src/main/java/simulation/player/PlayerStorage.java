@@ -12,7 +12,7 @@ public class PlayerStorage extends StockBase implements TransactionChecker {
   private static final Product INITIAL_FOOD =
     new Product(ProductType.FOOD, 300.0f);
 
-  Epochs epochs;
+  private final Epochs epochs;
 
   /**
    * Initializes the Map to HashMap with All the product
